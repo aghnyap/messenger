@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+// ----------- BASE MESSAGE -----------
+message Message {
+  string correlation_id = 1; // Unique ID for tracking requests and responses
+  string source_id = 2;
+  string destination_id = 3;
+  string channel = 4;
+  oneof type { // Message types
+    Request request = 5;
+    Response response = 6;
+    Broadcast broadcast = 7;
+  }
+}
+
+/// ----------- REQUEST MESSAGE -----------
+/// Purpose: Request data or results from a listener.
+/// Expectation: A listener must response with the result via a Response message.
+/// Example: "Get user profile" → Reply with user data.
+message Request {
+  string code = 1;                           // Request action code
+  map<string, string> parameters = 2;        // Request parameters
+}
+
+/// ----------- RESPONSE MESSAGE -----------
+/// Purpose: A response to a Request indicating success, failure, or data.
+/// Expectation: Only emitted as a response; never used directly as an action.
+/// Example: "Email sent successfully" or "User profile data".
+message Response {
+  string code = 1;                           // Response code
+  bool success = 2;                          // Success status
+  string message = 3;                        // Message description
+  oneof data {
+    bytes raw_data = 4;                      // Optional data payload
+  }
+}
+
+/// ----------- BROADCAST MESSAGE -----------
+/// Purpose: Broadcast information without expecting a response (fire-and-forget).
+/// Expectation: No response expected, but multiple listeners may act on it.
+/// Example: "User logged out" → No acknowledgment required.
+message Broadcast {
+  string event = 1;                          // Event name
+  map<string, string> metadata = 2;          // Metadata for event
+}
