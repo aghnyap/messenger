@@ -6,13 +6,13 @@ import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
-abstract class MessageBloc<Event, State> extends Bloc<Event, State>
-    with MessageHandler {
+abstract class MessageBloc<Event, State, Channel> extends Bloc<Event, State>
+    with MessageHandler<Channel> {
   MessageBloc(
-    MessageBus<Message> messageBus, {
+    MessageBus<Message, Channel> messageBus, {
     required State initialState,
-    required List<String> incomingChannels,
-    required String outgoingChannel,
+    required List<Channel> incomingChannels,
+    required Channel outgoingChannel,
     bool Function(Message)? filter,
   }) : super(initialState) {
     initializeMessageHandler(

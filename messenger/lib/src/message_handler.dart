@@ -8,19 +8,19 @@ import '../messenger.dart';
 
 typedef MessageFilter = bool Function(Message);
 
-abstract mixin class MessageHandler {
+abstract mixin class MessageHandler<Channel> {
   late final Logger logger;
 
-  late final MessageBus<Message> _messageBus;
+  late final MessageBus<Message, Channel> _messageBus;
   late final String _sourceId;
-  late final String _outgoingChannel;
+  late final Channel _outgoingChannel;
 
   late final StreamSubscription<Message> _subscription;
 
   void initializeMessageHandler(
-    MessageBus<Message> messageBus, {
-    required List<String> incomingChannels,
-    required String outgoingChannel,
+    MessageBus<Message, Channel> messageBus, {
+    required List<Channel> incomingChannels,
+    required Channel outgoingChannel,
     required MessageFilter filter,
   }) {
     logger = Logger(runtimeType.toString());
@@ -58,9 +58,7 @@ abstract mixin class MessageHandler {
 
     _messageBus.dispatch(
       _outgoingChannel,
-      message
-        ..channel = _outgoingChannel
-        ..sourceId = _sourceId,
+      message..sourceId = _sourceId,
     );
   }
 

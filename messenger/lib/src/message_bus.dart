@@ -3,12 +3,12 @@ import 'package:rxdart/rxdart.dart';
 
 import '../generated/message.pb.dart';
 
-final class MessageBus<T extends Message> {
+final class MessageBus<T extends Message, Channel> {
   static final Map<Type, MessageBus> _instances = {};
 
   factory MessageBus() {
-    return _instances.putIfAbsent(T, () => MessageBus<T>._internal())
-        as MessageBus<T>;
+    return _instances.putIfAbsent(T, () => MessageBus<T, Channel>._internal())
+        as MessageBus<T, Channel>;
   }
 
   MessageBus._internal() {
@@ -17,9 +17,9 @@ final class MessageBus<T extends Message> {
 
   late final Logger _logger;
 
-  final Map<String, BehaviorSubject<T>> _channels = {};
+  final Map<Channel, BehaviorSubject<T>> _channels = {};
 
-  Stream<E> receive<E extends T>(String channel) {
+  Stream<E> receive<E extends T>(Channel channel) {
     _channels.putIfAbsent(channel, () {
       _logger.info('Creating new channel [$channel]');
       return BehaviorSubject<T>();
@@ -36,7 +36,7 @@ final class MessageBus<T extends Message> {
             _logger.severe('Stream error on channel [$channel]:\n$error'));
   }
 
-  void dispatch(String channel, T message) {
+  void dispatch(Channel channel, T message) {
     _channels.putIfAbsent(channel, () {
       _logger.info('Creating new channel [$channel]');
       return BehaviorSubject<T>();
