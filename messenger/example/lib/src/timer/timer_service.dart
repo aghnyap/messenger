@@ -7,38 +7,63 @@ import '../../generated/timer/timer.pb.dart' as pb;
 
 @singleton
 final class TimerService extends MessageService {
-  late final StreamSubscription _subscription;
+  StreamSubscription? _subscription;
 
   TimerService(super.messageBus)
       : super(
-          incomingChannels: [],
+          incomingChannels: ['counter'],
           outgoingChannel: 'timer',
         ) {
     _startTimer();
   }
 
   @override
-  void handle(Message message) {}
+  void handle(Message message) async {
+    if (!message.hasResponse()) return;
+
+    switch (message.response.code) {
+      case 'increment':
+      case 'decrement':
+        _resetTimer();
+        break;
+      default:
+        logger.warning("Unhandled response: ${message.response.code}");
+    }
+  }
 
   void _startTimer() {
-    logger.info("TimerService started. Broadcasting every 1 second.");
-    _subscription = Stream.periodic(const Duration(seconds: 1), (count) {
-      return pb.Timer()..ticks = count + 1;
-    }).listen((timer) {
-      logger.info("Broadcasting timer message: ${timer.ticks}");
+    if (_subscription != null) {
+      logger.warning("Timer already running.");
+      return;
+    }
 
-      final broadcastMessage = Message()
-        ..channel = 'timer'
-        ..broadcast = (Broadcast()..rawData = timer.writeToBuffer());
+    logger.info("Timer started. Broadcasting every 1 second.");
+    _subscription = Stream.periodic(const Duration(seconds: 1), (ticks) {
+      return pb.Timer()..ticks = ++ticks;
+    }).listen(_broadcastTimer);
+  }
 
-      dispatch(broadcastMessage);
-    });
+  void _resetTimer() async {
+    logger.info("Resetting Timer...");
+    await _subscription?.cancel();
+    _subscription = null;
+    _startTimer();
+  }
+
+  void _broadcastTimer(pb.Timer timer) {
+    logger.info("Broadcasting timer message: ${timer.ticks}");
+
+    final broadcastMessage = Message()
+      ..channel = 'timer'
+      ..broadcast = (Broadcast()..rawData = timer.writeToBuffer());
+
+    dispatch(broadcastMessage);
   }
 
   @override
   Future<void> dispose() async {
-    await _subscription.cancel();
-    logger.info("Stopped.");
-    super.dispose();
+    await _subscription?.cancel();
+    _subscription = null;
+    logger.info("TimerService Stopped.");
   }
 }
