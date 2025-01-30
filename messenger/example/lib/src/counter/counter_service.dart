@@ -1,20 +1,21 @@
 import 'package:injectable/injectable.dart';
 import 'package:messenger/messenger.dart';
 
+import '../../generated/config/message_config.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 
 import 'counter.dart';
 
 @singleton
-final class CounterService extends MessageService {
+final class CounterService extends MessageService<MessageChannel> {
   final Counter counter;
 
   CounterService(
     super.messageBus,
     this.counter,
   ) : super(
-          incomingChannels: ['counter'],
-          outgoingChannel: 'counter',
+          incomingChannels: [MessageChannel.counter],
+          outgoingChannel: MessageChannel.counter,
         );
 
   @override
@@ -64,7 +65,6 @@ final class CounterService extends MessageService {
     pb.Counter counter,
   ) {
     final responseMessage = Message()
-      ..channel = requestMessage.channel
       ..response = (Response()
         ..code = requestMessage.request.code
         ..success = true

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:messenger/messenger.dart';
 
+import '../../generated/config/message_config.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 import '../../generated/timer/timer.pb.dart' as pb;
 
@@ -9,12 +10,15 @@ part 'counter_event.dart';
 part 'counter_state.dart';
 
 @injectable
-final class CounterCubit extends MessageCubit<CounterState> {
+final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
   CounterCubit(super.messageBus)
       : super(
           initialState: CounterInitial(),
-          incomingChannels: ['counter', 'timer'],
-          outgoingChannel: 'counter',
+          incomingChannels: [
+            MessageChannel.counter,
+            MessageChannel.timer,
+          ],
+          outgoingChannel: MessageChannel.counter,
         );
 
   @override

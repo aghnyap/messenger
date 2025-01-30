@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package config;
+
+// Enum to define standard message channels
+enum MessageChannel {
+  unknown = 0;
+  counter = 1;
+  timer = 2;
+}

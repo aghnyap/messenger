@@ -3,16 +3,17 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:messenger/messenger.dart';
 
+import '../../generated/config/message_config.pb.dart';
 import '../../generated/timer/timer.pb.dart' as pb;
 
 @singleton
-final class TimerService extends MessageService {
+final class TimerService extends MessageService<MessageChannel> {
   StreamSubscription? _subscription;
 
   TimerService(super.messageBus)
       : super(
-          incomingChannels: ['counter'],
-          outgoingChannel: 'timer',
+          incomingChannels: [MessageChannel.counter],
+          outgoingChannel: MessageChannel.timer,
         ) {
     _startTimer();
   }
