@@ -2,7 +2,7 @@ name: example
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -36,6 +36,14 @@ dependencies:
   cupertino_icons: ^1.0.8
   bloc: ^9.0.0
   flutter_bloc: ^9.0.0
+  messenger:
+    path: ../../messenger
+  logging: ^1.3.0
+  injectable: ^2.5.0
+  get_it: ^8.0.3
+  protobuf: ^3.1.0
+  fixnum: ^1.1.1
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:
@@ -47,13 +55,14 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  injectable_generator: ^2.7.0
+  build_runner: ^2.4.14
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

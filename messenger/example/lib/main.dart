@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logging/logging.dart';
 
-import 'src/counter_observer.dart';
+import 'di/di.dart';
 import 'src/my_app.dart';
 
 void main() {
-  Bloc.observer = const CounterObserver();
-  runApp(const MyApp());
+  Logger.root
+    ..level = Level.ALL
+    ..onRecord.listen((record) {
+      debugPrint('${record.level}: [${record.loggerName}] ${record.message}');
+    });
+
+  configureDependencies();
+
+  Bloc.observer = GetIt.I<BlocObserver>();
+  runApp(MyApp());
 }

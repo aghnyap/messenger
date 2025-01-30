@@ -1,6 +1,7 @@
-import 'package:example/src/counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'counter/counter_cubit.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
@@ -56,21 +57,41 @@ class MyHomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterBloc, CounterState>(
-              builder: (context, state) => Text(
-                '${state.counter}',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+            BlocBuilder<CounterCubit, CounterState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${state.counter}',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    Text(
+                      '${state.ticks}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                );
+              },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<CounterBloc>().add(IncrementCounter());
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () => context.read<CounterCubit>().increment(),
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(height: 10), // Spacing between buttons
+          FloatingActionButton(
+            onPressed: () => context.read<CounterCubit>().decrement(),
+            tooltip: 'Decrement',
+            child: const Icon(Icons.remove),
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
