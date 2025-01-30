@@ -6,9 +6,8 @@ import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
-abstract class MessageBloc<Event, State> extends Bloc<Event, State>
-    with MessageHandler {
-  MessageBloc(
+abstract class MessageCubit<State> extends Cubit<State> with MessageHandler {
+  MessageCubit(
     MessageBus<Message> messageBus, {
     required State initialState,
     required List<String> incomingChannels,
@@ -18,7 +17,7 @@ abstract class MessageBloc<Event, State> extends Bloc<Event, State>
       messageBus,
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
-      filter: (message) => message.hasResponse(),
+      filter: (message) => message.hasResponse() || message.hasBroadcast(),
     );
   }
 

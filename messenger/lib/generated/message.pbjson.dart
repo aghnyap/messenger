@@ -44,8 +44,12 @@ const Request$json = {
   '2': [
     {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
     {'1': 'parameters', '3': 2, '4': 3, '5': 11, '6': '.Request.ParametersEntry', '10': 'parameters'},
+    {'1': 'raw_data', '3': 3, '4': 1, '5': 12, '9': 0, '10': 'rawData'},
   ],
   '3': [Request_ParametersEntry$json],
+  '8': [
+    {'1': 'data'},
+  ],
 };
 
 @$core.Deprecated('Use requestDescriptor instead')
@@ -61,8 +65,9 @@ const Request_ParametersEntry$json = {
 /// Descriptor for `Request`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List requestDescriptor = $convert.base64Decode(
     'CgdSZXF1ZXN0EhIKBGNvZGUYASABKAlSBGNvZGUSOAoKcGFyYW1ldGVycxgCIAMoCzIYLlJlcX'
-    'Vlc3QuUGFyYW1ldGVyc0VudHJ5UgpwYXJhbWV0ZXJzGj0KD1BhcmFtZXRlcnNFbnRyeRIQCgNr'
-    'ZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEoCVIFdmFsdWU6AjgB');
+    'Vlc3QuUGFyYW1ldGVyc0VudHJ5UgpwYXJhbWV0ZXJzEhsKCHJhd19kYXRhGAMgASgMSABSB3Jh'
+    'd0RhdGEaPQoPUGFyYW1ldGVyc0VudHJ5EhAKA2tleRgBIAEoCVIDa2V5EhQKBXZhbHVlGAIgAS'
+    'gJUgV2YWx1ZToCOAFCBgoEZGF0YQ==');
 
 @$core.Deprecated('Use responseDescriptor instead')
 const Response$json = {
@@ -90,8 +95,12 @@ const Broadcast$json = {
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 9, '10': 'event'},
     {'1': 'metadata', '3': 2, '4': 3, '5': 11, '6': '.Broadcast.MetadataEntry', '10': 'metadata'},
+    {'1': 'raw_data', '3': 3, '4': 1, '5': 12, '9': 0, '10': 'rawData'},
   ],
   '3': [Broadcast_MetadataEntry$json],
+  '8': [
+    {'1': 'data'},
+  ],
 };
 
 @$core.Deprecated('Use broadcastDescriptor instead')
@@ -107,6 +116,7 @@ const Broadcast_MetadataEntry$json = {
 /// Descriptor for `Broadcast`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List broadcastDescriptor = $convert.base64Decode(
     'CglCcm9hZGNhc3QSFAoFZXZlbnQYASABKAlSBWV2ZW50EjQKCG1ldGFkYXRhGAIgAygLMhguQn'
-    'JvYWRjYXN0Lk1ldGFkYXRhRW50cnlSCG1ldGFkYXRhGjsKDU1ldGFkYXRhRW50cnkSEAoDa2V5'
-    'GAEgASgJUgNrZXkSFAoFdmFsdWUYAiABKAlSBXZhbHVlOgI4AQ==');
+    'JvYWRjYXN0Lk1ldGFkYXRhRW50cnlSCG1ldGFkYXRhEhsKCHJhd19kYXRhGAMgASgMSABSB3Jh'
+    'd0RhdGEaOwoNTWV0YWRhdGFFbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEoCV'
+    'IFdmFsdWU6AjgBQgYKBGRhdGE=');
 

@@ -171,6 +171,11 @@ class Message extends $pb.GeneratedMessage {
   Broadcast ensureBroadcast() => $_ensure(6);
 }
 
+enum Request_Data {
+  rawData, 
+  notSet
+}
+
 /// / ----------- REQUEST MESSAGE -----------
 /// / Purpose: Request data or results from a listener.
 /// / Expectation: A listener must response with the result via a Response message.
@@ -179,6 +184,7 @@ class Request extends $pb.GeneratedMessage {
   factory Request({
     $core.String? code,
     $core.Map<$core.String, $core.String>? parameters,
+    $core.List<$core.int>? rawData,
   }) {
     final $result = create();
     if (code != null) {
@@ -187,15 +193,24 @@ class Request extends $pb.GeneratedMessage {
     if (parameters != null) {
       $result.parameters.addAll(parameters);
     }
+    if (rawData != null) {
+      $result.rawData = rawData;
+    }
     return $result;
   }
   Request._() : super();
   factory Request.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Request.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
+  static const $core.Map<$core.int, Request_Data> _Request_DataByTag = {
+    3 : Request_Data.rawData,
+    0 : Request_Data.notSet
+  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Request', createEmptyInstance: create)
+    ..oo(0, [3])
     ..aOS(1, _omitFieldNames ? '' : 'code')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'parameters', entryClassName: 'Request.ParametersEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
+    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'rawData', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -220,6 +235,9 @@ class Request extends $pb.GeneratedMessage {
   static Request getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Request>(create);
   static Request? _defaultInstance;
 
+  Request_Data whichData() => _Request_DataByTag[$_whichOneof(0)]!;
+  void clearData() => clearField($_whichOneof(0));
+
   @$pb.TagNumber(1)
   $core.String get code => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -231,6 +249,15 @@ class Request extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.Map<$core.String, $core.String> get parameters => $_getMap(1);
+
+  @$pb.TagNumber(3)
+  $core.List<$core.int> get rawData => $_getN(2);
+  @$pb.TagNumber(3)
+  set rawData($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasRawData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearRawData() => clearField(3);
 }
 
 enum Response_Data {
@@ -342,6 +369,11 @@ class Response extends $pb.GeneratedMessage {
   void clearRawData() => clearField(4);
 }
 
+enum Broadcast_Data {
+  rawData, 
+  notSet
+}
+
 /// / ----------- BROADCAST MESSAGE -----------
 /// / Purpose: Broadcast information without expecting a response (fire-and-forget).
 /// / Expectation: No response expected, but multiple listeners may act on it.
@@ -350,6 +382,7 @@ class Broadcast extends $pb.GeneratedMessage {
   factory Broadcast({
     $core.String? event,
     $core.Map<$core.String, $core.String>? metadata,
+    $core.List<$core.int>? rawData,
   }) {
     final $result = create();
     if (event != null) {
@@ -358,15 +391,24 @@ class Broadcast extends $pb.GeneratedMessage {
     if (metadata != null) {
       $result.metadata.addAll(metadata);
     }
+    if (rawData != null) {
+      $result.rawData = rawData;
+    }
     return $result;
   }
   Broadcast._() : super();
   factory Broadcast.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Broadcast.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
+  static const $core.Map<$core.int, Broadcast_Data> _Broadcast_DataByTag = {
+    3 : Broadcast_Data.rawData,
+    0 : Broadcast_Data.notSet
+  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Broadcast', createEmptyInstance: create)
+    ..oo(0, [3])
     ..aOS(1, _omitFieldNames ? '' : 'event')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'metadata', entryClassName: 'Broadcast.MetadataEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
+    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'rawData', $pb.PbFieldType.OY)
     ..hasRequiredFields = false
   ;
 
@@ -391,6 +433,9 @@ class Broadcast extends $pb.GeneratedMessage {
   static Broadcast getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Broadcast>(create);
   static Broadcast? _defaultInstance;
 
+  Broadcast_Data whichData() => _Broadcast_DataByTag[$_whichOneof(0)]!;
+  void clearData() => clearField($_whichOneof(0));
+
   @$pb.TagNumber(1)
   $core.String get event => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -402,6 +447,15 @@ class Broadcast extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(2)
   $core.Map<$core.String, $core.String> get metadata => $_getMap(1);
+
+  @$pb.TagNumber(3)
+  $core.List<$core.int> get rawData => $_getN(2);
+  @$pb.TagNumber(3)
+  set rawData($core.List<$core.int> v) { $_setBytes(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasRawData() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearRawData() => clearField(3);
 }
 
 

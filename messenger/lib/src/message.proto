@@ -20,6 +20,9 @@ message Message {
 message Request {
   string code = 1;                           // Request action code
   map<string, string> parameters = 2;        // Request parameters
+  oneof data {
+    bytes raw_data = 3;                      // Optional data payload
+  }
 }
 
 /// ----------- RESPONSE MESSAGE -----------
@@ -42,4 +45,7 @@ message Response {
 message Broadcast {
   string event = 1;                          // Event name
   map<string, string> metadata = 2;          // Metadata for event
+  oneof data {
+    bytes raw_data = 3;                      // Optional data payload
+  } 
 }
