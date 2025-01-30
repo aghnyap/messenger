@@ -7,12 +7,13 @@ abstract class MessageService extends MessageHandler {
     MessageBus<Message> messageBus, {
     required List<String> incomingChannels,
     required String outgoingChannel,
+    bool Function(Message)? filter,
   }) : super() {
     initializeMessageHandler(
       messageBus,
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
-      filter: (message) => message.hasRequest() || message.hasBroadcast(),
+      filter: filter ?? (_) => true,
     );
   }
 }

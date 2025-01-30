@@ -13,12 +13,13 @@ abstract class MessageBloc<Event, State> extends Bloc<Event, State>
     required State initialState,
     required List<String> incomingChannels,
     required String outgoingChannel,
+    bool Function(Message)? filter,
   }) : super(initialState) {
     initializeMessageHandler(
       messageBus,
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
-      filter: (message) => message.hasResponse(),
+      filter: filter ?? (_) => true,
     );
   }
 
