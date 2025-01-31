@@ -5,7 +5,7 @@ message Message {
   string correlation_id = 1; // Unique ID for tracking requests and responses
   string source_id = 2;
   string destination_id = 3;
-  string channel = 4;
+  bytes channel = 4;
   oneof type { // Message types
     Request request = 5;
     Response response = 6;
@@ -20,9 +20,7 @@ message Message {
 message Request {
   string code = 1;                           // Request action code
   map<string, string> parameters = 2;        // Request parameters
-  oneof data {
-    bytes raw_data = 3;                      // Optional data payload
-  }
+  bytes data = 3;                            // Optional data payload
 }
 
 /// ----------- RESPONSE MESSAGE -----------
@@ -33,9 +31,7 @@ message Response {
   string code = 1;                           // Response code
   bool success = 2;                          // Success status
   string message = 3;                        // Message description
-  oneof data {
-    bytes raw_data = 4;                      // Optional data payload
-  }
+  bytes data = 4;                            // Optional data payload
 }
 
 /// ----------- BROADCAST MESSAGE -----------
@@ -43,9 +39,7 @@ message Response {
 /// Expectation: No response expected, but multiple listeners may act on it.
 /// Example: "User logged out" → No acknowledgment required.
 message Broadcast {
-  string event = 1;                          // Event name
+  string event = 1;                          // Broadcast event name
   map<string, string> metadata = 2;          // Metadata for event
-  oneof data {
-    bytes raw_data = 3;                      // Optional data payload
-  } 
+  bytes data = 3;                            // Optional data payload
 }
