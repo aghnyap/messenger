@@ -4,11 +4,12 @@ import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
 import '../../generated/counter/counter.pb.dart' as pb;
+import '../../generated/message_channel.pbenum.dart';
 
 import 'counter.dart';
 
 @singleton
-final class CounterService extends MessageService {
+final class CounterService extends MessageService<MessageChannel> {
   final Counter counter;
 
   CounterService(
@@ -16,9 +17,9 @@ final class CounterService extends MessageService {
     this.counter,
   ) : super(
           incomingChannels: [
-            'counter',
+            MessageChannel.COUNTER,
           ],
-          outgoingChannel: 'counter',
+          outgoingChannel: MessageChannel.COUNTER,
         );
 
   @override

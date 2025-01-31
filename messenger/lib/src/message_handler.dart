@@ -2,25 +2,26 @@ import 'dart:async';
 
 import 'package:logging/logging.dart';
 import 'package:messenger/generated/google/protobuf/timestamp.pb.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../generated/message.pb.dart';
 import '../messenger.dart';
 
-abstract mixin class MessageHandler {
+abstract mixin class MessageHandler<T extends ProtobufEnum> {
   late final Logger logger;
 
-  late final MessageBus _messageBus;
+  late final MessageBus<T> _messageBus;
   late final String _sourceId;
-  late final String _outgoingChannel;
+  late final T _outgoingChannel;
 
   late final StreamSubscription<Message> _subscription;
 
   void initializeMessageHandler(
-    MessageBus messageBus, {
-    required List<String> incomingChannels,
-    required String outgoingChannel,
+    MessageBus<T> messageBus, {
+    required List<T> incomingChannels,
+    required T outgoingChannel,
     required bool Function(Message) filter,
   }) {
     logger = Logger(runtimeType.toString());
@@ -60,7 +61,7 @@ abstract mixin class MessageHandler {
       _outgoingChannel,
       message
         ..sourceId = _sourceId
-        ..channel = _outgoingChannel
+        ..channel = _outgoingChannel.name
         ..timestamp = Timestamp.fromDateTime(DateTime.now()),
     );
   }

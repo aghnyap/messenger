@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+enum MessageChannel {
+    UNSPECIFIED = 0;
+    COUNTER = 1;
+    TIMER = 2;
+  }

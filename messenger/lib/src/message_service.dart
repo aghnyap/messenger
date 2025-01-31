@@ -1,12 +1,15 @@
+import 'package:protobuf/protobuf.dart';
+
 import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
-abstract class MessageService extends MessageHandler {
+abstract class MessageService<T extends ProtobufEnum>
+    extends MessageHandler<T> {
   MessageService(
-    MessageBus messageBus, {
-    required List<String> incomingChannels,
-    required String outgoingChannel,
+    MessageBus<T> messageBus, {
+    required List<T> incomingChannels,
+    required T outgoingChannel,
     bool Function(Message)? filter,
   }) : super() {
     initializeMessageHandler(

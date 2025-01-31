@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:protobuf/protobuf.dart';
 
 import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
-abstract class MessageCubit<State> extends Cubit<State> with MessageHandler {
+abstract class MessageCubit<State, T extends ProtobufEnum> extends Cubit<State>
+    with MessageHandler<T> {
   MessageCubit(
-    MessageBus messageBus, {
+    MessageBus<T> messageBus, {
     required State initialState,
-    required List<String> incomingChannels,
-    required String outgoingChannel,
+    required List<T> incomingChannels,
+    required T outgoingChannel,
     bool Function(Message)? filter,
   }) : super(initialState) {
     initializeMessageHandler(

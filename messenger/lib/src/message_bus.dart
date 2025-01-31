@@ -1,18 +1,26 @@
 import 'package:logging/logging.dart';
+import 'package:protobuf/protobuf.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../generated/message.pb.dart';
 
-final class MessageBus {
-  MessageBus() {
+final class MessageBus<T extends ProtobufEnum> {
+  static final Map<Type, MessageBus> _instances = {};
+
+  factory MessageBus() {
+    return _instances.putIfAbsent(T, () => MessageBus<T>._internal())
+        as MessageBus<T>;
+  }
+
+  MessageBus._internal() {
     _logger = Logger(runtimeType.toString());
   }
 
   late final Logger _logger;
 
-  final Map<String, BehaviorSubject<Message>> _channels = {};
+  final Map<T, BehaviorSubject<Message>> _channels = {};
 
-  Stream<E> receive<E extends Message>(String channel) {
+  Stream<E> receive<E extends Message>(T channel) {
     _channels.putIfAbsent(channel, () {
       _logger.info('Creating new channel [$channel]');
       return BehaviorSubject<Message>();
@@ -29,7 +37,7 @@ final class MessageBus {
             _logger.severe('Stream error on channel [$channel]:\n$error'));
   }
 
-  void dispatch(String channel, Message message) {
+  void dispatch(T channel, Message message) {
     _channels.putIfAbsent(channel, () {
       _logger.info('Creating new channel [$channel]');
       return BehaviorSubject<Message>();
