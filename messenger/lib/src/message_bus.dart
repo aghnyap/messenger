@@ -26,20 +26,23 @@ final class MessageBus<T extends ProtobufEnum> {
       return BehaviorSubject<(T, Message)>();
     });
 
-    return _channels[channel]!.stream;
-    // .where((message) => message is U)
-    // .cast<(T, U)>()
-    // .doOnData(_logOnData)
-    // .handleError(_logOnError);
+    return _channels[channel]!
+        .stream
+        .distinct()
+        .where((event) => event is (T, U))
+        .cast<(T, U)>()
+        .where((event) => event.$1.name == event.$2.channel)
+        .doOnData(_logOnData)
+        .doOnError(_logOnError);
   }
 
-  // void _logOnError(Object error, StackTrace stackTrace) {
-  //   _logger.severe('Stream error on channel:\n$error');
-  // }
+  void _logOnError(Object error, StackTrace stackTrace) {
+    _logger.severe('Streaming error on channel:\n$error');
+  }
 
-  // void _logOnData((T, Message) pair) {
-  //   _logger.fine('Stream data on channel [${pair.$1}]:\n${pair.$2}');
-  // }
+  void _logOnData((T, Message) event) {
+    _logger.fine('Streaming data on channel [${event.$1}]:\n${event.$2}');
+  }
 
   void dispatch(T channel, Message message) {
     _channels.putIfAbsent(channel, () {
