@@ -24,25 +24,30 @@ final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
         );
 
   @override
-  void handle(MessageChannel channel, Message message) {
-    if (channel == MessageChannel.COUNTER && message.hasResponse()) {
-      if (!message.response.hasData()) {
-        return;
-      }
+  void handleResponse(MessageChannel channel, Response response) {
+    if (!response.hasData()) {
+      return;
+    }
 
+    if (channel == MessageChannel.COUNTER) {
       try {
-        final counter = message.response.data.unpackInto(pb.Counter());
+        final counter = response.data.unpackInto(pb.Counter());
         emit(CounterUpdated(counter: counter.value, ticks: state.ticks));
       } catch (e) {
         logger.severe('Failed to parse Counter from raw_data: $e');
       }
-    } else if (message.hasBroadcast()) {
-      if (!message.broadcast.hasData()) {
-        return;
-      }
+    }
+  }
 
+  @override
+  void handleBroadcast(MessageChannel channel, Broadcast broadcast) {
+    if (!broadcast.hasData()) {
+      return;
+    }
+
+    if (channel == MessageChannel.TIMER) {
       try {
-        final timer = message.broadcast.data.unpackInto(pb.Timer());
+        final timer = broadcast.data.unpackInto(pb.Timer());
         emit(CounterUpdated(counter: state.counter, ticks: timer.ticks));
       } catch (e) {
         logger.severe('Failed to parse Counter from raw_data: $e');

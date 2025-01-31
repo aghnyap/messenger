@@ -23,16 +23,14 @@ final class TimerService extends MessageService<MessageChannel> {
   }
 
   @override
-  void handle(MessageChannel channel, Message message) async {
-    if (!message.hasResponse()) return;
-
-    switch (message.response.code) {
+  void handleResponse(MessageChannel channel, Response response) async {
+    switch (response.code) {
       case 'increment':
       case 'decrement':
         _resetTimer();
         break;
       default:
-        logger.warning("Unhandled response: ${message.response.code}");
+        logger.warning("Unhandled response: ${response.code}");
     }
   }
 

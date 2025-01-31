@@ -23,53 +23,43 @@ final class CounterService extends MessageService<MessageChannel> {
         );
 
   @override
-  void handle(MessageChannel channel, Message message) {
-    switch (message.request.code) {
-      case 'increment':
-        _handleIncrement(message);
-        break;
-      case 'decrement':
-        _handleDecrement(message);
-        break;
-      default:
-        logger.warning('Unhandled request: ${message.request.code}');
+  void handleRequest(MessageChannel channel, Request request) {
+    if (channel == MessageChannel.COUNTER) {
+      switch (request.code) {
+        case 'increment':
+          _handle(request, (value) => counter.increment(value));
+          break;
+        case 'decrement':
+          _handle(request, (value) => counter.decrement(value));
+          break;
+        default:
+          logger.warning('Unhandled request: ${request.code}');
+      }
     }
   }
 
-  void _handleIncrement(Message message) {
-    final value = _parseRawData(message).value;
-    final updatedCounter = pb.Counter()..value = counter.increment(value);
-
-    _sendCounterResponse(message, updatedCounter);
+  void _handle(Request request, int Function(int) counter) {
+    var updatedCounter = pb.Counter()..value = counter(_getData(request));
+    _sendCounterResponse(request, updatedCounter);
   }
 
-  void _handleDecrement(Message message) {
-    final value = _parseRawData(message).value;
-    final updatedCounter = pb.Counter()..value = counter.decrement(value);
-
-    _sendCounterResponse(message, updatedCounter);
-  }
-
-  pb.Counter _parseRawData(Message message) {
-    if (!message.request.hasData()) {
+  int _getData(Request request) {
+    if (!request.hasData()) {
       logger.warning('No raw_data found in request. Defaulting counter to 0.');
-      return pb.Counter()..value = 0;
+      return 0;
     }
 
     try {
-      return message.request.data.unpackInto(pb.Counter());
+      return request.data.unpackInto(pb.Counter()).value;
     } catch (e) {
       logger.severe('Failed to parse Counter from raw_data: $e');
-      return pb.Counter()..value = 0;
+      return 0;
     }
   }
 
-  void _sendCounterResponse(
-    Message requestMessage,
-    pb.Counter counter,
-  ) {
+  void _sendCounterResponse(Request request, pb.Counter counter) {
     final response = Response()
-      ..code = requestMessage.request.code
+      ..code = request.code
       ..success = true
       ..data = Any.pack(counter);
 

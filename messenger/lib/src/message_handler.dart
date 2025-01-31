@@ -39,10 +39,9 @@ abstract mixin class MessageHandler<T extends ProtobufEnum> {
 
     logger.info('Starting stream on channels: $incomingChannels');
 
-    _subscription = Rx.merge(channelStreams).listen(
+    _subscription = Rx.merge(channelStreams).doOnData(_handleData).listen(
       (message) {
-        handle(message.$1, message.$2);
-        logger.info('Received message on [${message.$1}]:\n${message.$2}');
+        logger.info('Subscribing message on [${message.$1}]:\n${message.$2}');
       },
       onError: (error) {
         logger.severe('Subscription error: $error');
@@ -53,7 +52,17 @@ abstract mixin class MessageHandler<T extends ProtobufEnum> {
     );
   }
 
-  void handle(T channel, Message message);
+  void _handleData((T, Message) data) {
+    if (data.$2.hasBroadcast()) handleBroadcast(data.$1, data.$2.broadcast);
+    if (data.$2.hasRequest()) handleRequest(data.$1, data.$2.request);
+    if (data.$2.hasResponse()) handleResponse(data.$1, data.$2.response);
+  }
+
+  void handleResponse(T channel, Response response) {}
+
+  void handleBroadcast(T channel, Broadcast broadcast) {}
+
+  void handleRequest(T channel, Request request) {}
 
   void dispatch(Message message) {
     logger.info('Sending message to [$_outgoingChannel]:\n$message');
