@@ -5,19 +5,18 @@ import 'package:messenger/generated/google/protobuf/any.pb.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_channel.pb.dart';
 import '../../generated/timer/timer.pb.dart' as pb;
 
 @singleton
-final class TimerService extends MessageService<MessageChannel> {
+final class TimerService extends MessageService {
   StreamSubscription? _subscription;
 
   TimerService(super.messageBus)
       : super(
           incomingChannels: [
-            MessageChannel.COUNTER,
+            'counter',
           ],
-          outgoingChannel: MessageChannel.TIMER,
+          outgoingChannel: 'timer',
         ) {
     _startTimer();
   }

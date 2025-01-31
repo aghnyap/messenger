@@ -13,8 +13,8 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/any.pb.dart' as $0;
-import 'google/protobuf/timestamp.pb.dart' as $1;
+import 'google/protobuf/any.pb.dart' as $1;
+import 'google/protobuf/timestamp.pb.dart' as $0;
 
 enum Message_Type {
   request, 
@@ -29,8 +29,8 @@ class Message extends $pb.GeneratedMessage {
     $core.String? correlationId,
     $core.String? sourceId,
     $core.String? destinationId,
-    $0.Any? channel,
-    $1.Timestamp? timestamp,
+    $core.String? channel,
+    $0.Timestamp? timestamp,
     Request? request,
     Response? response,
     Broadcast? broadcast,
@@ -77,8 +77,8 @@ class Message extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'correlationId')
     ..aOS(2, _omitFieldNames ? '' : 'sourceId')
     ..aOS(3, _omitFieldNames ? '' : 'destinationId')
-    ..aOM<$0.Any>(4, _omitFieldNames ? '' : 'channel', subBuilder: $0.Any.create)
-    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'timestamp', subBuilder: $1.Timestamp.create)
+    ..aOS(4, _omitFieldNames ? '' : 'channel')
+    ..aOM<$0.Timestamp>(5, _omitFieldNames ? '' : 'timestamp', subBuilder: $0.Timestamp.create)
     ..aOM<Request>(6, _omitFieldNames ? '' : 'request', subBuilder: Request.create)
     ..aOM<Response>(7, _omitFieldNames ? '' : 'response', subBuilder: Response.create)
     ..aOM<Broadcast>(8, _omitFieldNames ? '' : 'broadcast', subBuilder: Broadcast.create)
@@ -137,26 +137,24 @@ class Message extends $pb.GeneratedMessage {
   void clearDestinationId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $0.Any get channel => $_getN(3);
+  $core.String get channel => $_getSZ(3);
   @$pb.TagNumber(4)
-  set channel($0.Any v) { setField(4, v); }
+  set channel($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
   $core.bool hasChannel() => $_has(3);
   @$pb.TagNumber(4)
   void clearChannel() => clearField(4);
-  @$pb.TagNumber(4)
-  $0.Any ensureChannel() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  $1.Timestamp get timestamp => $_getN(4);
+  $0.Timestamp get timestamp => $_getN(4);
   @$pb.TagNumber(5)
-  set timestamp($1.Timestamp v) { setField(5, v); }
+  set timestamp($0.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
   $core.bool hasTimestamp() => $_has(4);
   @$pb.TagNumber(5)
   void clearTimestamp() => clearField(5);
   @$pb.TagNumber(5)
-  $1.Timestamp ensureTimestamp() => $_ensure(4);
+  $0.Timestamp ensureTimestamp() => $_ensure(4);
 
   @$pb.TagNumber(6)
   Request get request => $_getN(5);
@@ -200,7 +198,7 @@ class Request extends $pb.GeneratedMessage {
   factory Request({
     $core.String? code,
     $core.Map<$core.String, $core.String>? parameters,
-    $0.Any? data,
+    $1.Any? data,
   }) {
     final $result = create();
     if (code != null) {
@@ -221,7 +219,7 @@ class Request extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Request', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'code')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'parameters', entryClassName: 'Request.ParametersEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
-    ..aOM<$0.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
+    ..aOM<$1.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $1.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -259,15 +257,15 @@ class Request extends $pb.GeneratedMessage {
   $core.Map<$core.String, $core.String> get parameters => $_getMap(1);
 
   @$pb.TagNumber(3)
-  $0.Any get data => $_getN(2);
+  $1.Any get data => $_getN(2);
   @$pb.TagNumber(3)
-  set data($0.Any v) { setField(3, v); }
+  set data($1.Any v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasData() => $_has(2);
   @$pb.TagNumber(3)
   void clearData() => clearField(3);
   @$pb.TagNumber(3)
-  $0.Any ensureData() => $_ensure(2);
+  $1.Any ensureData() => $_ensure(2);
 }
 
 /// / ----------- RESPONSE MESSAGE -----------
@@ -279,7 +277,7 @@ class Response extends $pb.GeneratedMessage {
     $core.String? code,
     $core.bool? success,
     $core.String? message,
-    $0.Any? data,
+    $1.Any? data,
   }) {
     final $result = create();
     if (code != null) {
@@ -304,7 +302,7 @@ class Response extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'code')
     ..aOB(2, _omitFieldNames ? '' : 'success')
     ..aOS(3, _omitFieldNames ? '' : 'message')
-    ..aOM<$0.Any>(4, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
+    ..aOM<$1.Any>(4, _omitFieldNames ? '' : 'data', subBuilder: $1.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -357,15 +355,15 @@ class Response extends $pb.GeneratedMessage {
   void clearMessage() => clearField(3);
 
   @$pb.TagNumber(4)
-  $0.Any get data => $_getN(3);
+  $1.Any get data => $_getN(3);
   @$pb.TagNumber(4)
-  set data($0.Any v) { setField(4, v); }
+  set data($1.Any v) { setField(4, v); }
   @$pb.TagNumber(4)
   $core.bool hasData() => $_has(3);
   @$pb.TagNumber(4)
   void clearData() => clearField(4);
   @$pb.TagNumber(4)
-  $0.Any ensureData() => $_ensure(3);
+  $1.Any ensureData() => $_ensure(3);
 }
 
 /// / ----------- BROADCAST MESSAGE -----------
@@ -376,7 +374,7 @@ class Broadcast extends $pb.GeneratedMessage {
   factory Broadcast({
     $core.String? event,
     $core.Map<$core.String, $core.String>? metadata,
-    $0.Any? data,
+    $1.Any? data,
   }) {
     final $result = create();
     if (event != null) {
@@ -397,7 +395,7 @@ class Broadcast extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Broadcast', createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'event')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'metadata', entryClassName: 'Broadcast.MetadataEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
-    ..aOM<$0.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
+    ..aOM<$1.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $1.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -435,15 +433,15 @@ class Broadcast extends $pb.GeneratedMessage {
   $core.Map<$core.String, $core.String> get metadata => $_getMap(1);
 
   @$pb.TagNumber(3)
-  $0.Any get data => $_getN(2);
+  $1.Any get data => $_getN(2);
   @$pb.TagNumber(3)
-  set data($0.Any v) { setField(3, v); }
+  set data($1.Any v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasData() => $_has(2);
   @$pb.TagNumber(3)
   void clearData() => clearField(3);
   @$pb.TagNumber(3)
-  $0.Any ensureData() => $_ensure(2);
+  $1.Any ensureData() => $_ensure(2);
 }
 
 

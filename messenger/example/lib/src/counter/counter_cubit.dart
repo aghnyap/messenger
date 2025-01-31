@@ -4,7 +4,6 @@ import 'package:messenger/generated/google/protobuf/any.pb.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_channel.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 import '../../generated/timer/timer.pb.dart' as pb;
 
@@ -12,15 +11,15 @@ part 'counter_event.dart';
 part 'counter_state.dart';
 
 @injectable
-final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
+final class CounterCubit extends MessageCubit<CounterState> {
   CounterCubit(super.messageBus)
       : super(
           initialState: CounterInitial(),
           incomingChannels: [
-            MessageChannel.COUNTER,
-            MessageChannel.TIMER,
+            'counter',
+            'timer',
           ],
-          outgoingChannel: MessageChannel.COUNTER,
+          outgoingChannel: 'counter',
         );
 
   @override

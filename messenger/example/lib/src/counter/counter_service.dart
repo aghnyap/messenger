@@ -3,13 +3,12 @@ import 'package:messenger/generated/google/protobuf/any.pb.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_channel.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 
 import 'counter.dart';
 
 @singleton
-final class CounterService extends MessageService<MessageChannel> {
+final class CounterService extends MessageService {
   final Counter counter;
 
   CounterService(
@@ -17,9 +16,9 @@ final class CounterService extends MessageService<MessageChannel> {
     this.counter,
   ) : super(
           incomingChannels: [
-            MessageChannel.COUNTER,
+            'counter',
           ],
-          outgoingChannel: MessageChannel.COUNTER,
+          outgoingChannel: 'counter',
         );
 
   @override

@@ -2,11 +2,11 @@ import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
-abstract class MessageService<Channel> extends MessageHandler<Channel> {
+abstract class MessageService extends MessageHandler {
   MessageService(
-    MessageBus<Message, Channel> messageBus, {
-    required List<Channel> incomingChannels,
-    required Channel outgoingChannel,
+    MessageBus<Message> messageBus, {
+    required List<String> incomingChannels,
+    required String outgoingChannel,
     bool Function(Message)? filter,
   }) : super() {
     initializeMessageHandler(

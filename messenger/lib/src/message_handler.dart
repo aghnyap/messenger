@@ -1,28 +1,27 @@
 import 'dart:async';
 
 import 'package:logging/logging.dart';
+import 'package:messenger/generated/google/protobuf/timestamp.pb.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../generated/message.pb.dart';
 import '../messenger.dart';
 
-typedef MessageFilter = bool Function(Message);
-
-abstract mixin class MessageHandler<Channel> {
+abstract mixin class MessageHandler {
   late final Logger logger;
 
-  late final MessageBus<Message, Channel> _messageBus;
+  late final MessageBus<Message> _messageBus;
   late final String _sourceId;
-  late final Channel _outgoingChannel;
+  late final String _outgoingChannel;
 
   late final StreamSubscription<Message> _subscription;
 
   void initializeMessageHandler(
-    MessageBus<Message, Channel> messageBus, {
-    required List<Channel> incomingChannels,
-    required Channel outgoingChannel,
-    required MessageFilter filter,
+    MessageBus<Message> messageBus, {
+    required List<String> incomingChannels,
+    required String outgoingChannel,
+    required bool Function(Message) filter,
   }) {
     logger = Logger(runtimeType.toString());
 
@@ -57,7 +56,13 @@ abstract mixin class MessageHandler<Channel> {
   void dispatch(Message message) {
     logger.info('Sending message to [$_outgoingChannel]:\n$message');
 
-    _messageBus.dispatch(_outgoingChannel, message..sourceId = _sourceId);
+    _messageBus.dispatch(
+      _outgoingChannel,
+      message
+        ..sourceId = _sourceId
+        ..channel = _outgoingChannel
+        ..timestamp = Timestamp.fromDateTime(DateTime.now()),
+    );
   }
 
   Future<void> dispose() async {
