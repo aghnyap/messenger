@@ -14,7 +14,7 @@ abstract class MessageCubit<State, T extends ProtobufEnum> extends Cubit<State>
     required State initialState,
     required List<T> incomingChannels,
     required T outgoingChannel,
-    bool Function(Message)? filter,
+    bool Function((T, Message))? filter,
   }) : super(initialState) {
     initializeMessageHandler(
       messageBus,

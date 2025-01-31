@@ -23,7 +23,7 @@ final class CounterService extends MessageService<MessageChannel> {
         );
 
   @override
-  void handle(Message message) {
+  void handle(MessageChannel channel, Message message) {
     switch (message.request.code) {
       case 'increment':
         _handleIncrement(message);

@@ -23,7 +23,7 @@ final class TimerService extends MessageService<MessageChannel> {
   }
 
   @override
-  void handle(Message message) async {
+  void handle(MessageChannel channel, Message message) async {
     if (!message.hasResponse()) return;
 
     switch (message.response.code) {

@@ -24,8 +24,8 @@ final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
         );
 
   @override
-  void handle(Message message) {
-    if (message.hasResponse()) {
+  void handle(MessageChannel channel, Message message) {
+    if (channel == MessageChannel.COUNTER && message.hasResponse()) {
       if (!message.response.hasData()) {
         return;
       }

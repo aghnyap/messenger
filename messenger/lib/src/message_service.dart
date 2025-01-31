@@ -10,7 +10,7 @@ abstract class MessageService<T extends ProtobufEnum>
     MessageBus<T> messageBus, {
     required List<T> incomingChannels,
     required T outgoingChannel,
-    bool Function(Message)? filter,
+    bool Function((T, Message))? filter,
   }) : super() {
     initializeMessageHandler(
       messageBus,

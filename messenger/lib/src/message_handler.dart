@@ -16,13 +16,13 @@ abstract mixin class MessageHandler<T extends ProtobufEnum> {
   late final String _sourceId;
   late final T _outgoingChannel;
 
-  late final StreamSubscription<Message> _subscription;
+  late final StreamSubscription<(T, Message)> _subscription;
 
   void initializeMessageHandler(
     MessageBus<T> messageBus, {
     required List<T> incomingChannels,
     required T outgoingChannel,
-    required bool Function(Message) filter,
+    required bool Function((T, Message)) filter,
   }) {
     logger = Logger(runtimeType.toString());
 
@@ -33,15 +33,16 @@ abstract mixin class MessageHandler<T extends ProtobufEnum> {
     var channelStreams = incomingChannels
         .map((channel) => messageBus
             .receive<Message>(channel)
-            .where((message) => message.sourceId != _sourceId)
+            .where((message) => message.$2.sourceId != _sourceId)
             .where(filter))
         .toList();
 
     logger.info('Starting stream on channels: $incomingChannels');
 
-    _subscription = Rx.merge(channelStreams).doOnData(handle).listen(
+    _subscription = Rx.merge(channelStreams).listen(
       (message) {
-        logger.info('Received message on [${message.channel}]:\n$message');
+        handle(message.$1, message.$2);
+        logger.info('Received message on [${message.$1}]:\n${message.$2}');
       },
       onError: (error) {
         logger.severe('Subscription error: $error');
@@ -52,7 +53,7 @@ abstract mixin class MessageHandler<T extends ProtobufEnum> {
     );
   }
 
-  void handle(Message message);
+  void handle(T channel, Message message);
 
   void dispatch(Message message) {
     logger.info('Sending message to [$_outgoingChannel]:\n$message');

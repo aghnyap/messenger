@@ -7,20 +7,21 @@ import '../generated/message.pb.dart';
 final class MessageBus<T extends ProtobufEnum> {
   static final Map<Type, MessageBus> _instances = {};
 
-  factory MessageBus() {
-    return _instances.putIfAbsent(T, () => MessageBus<T>._internal())
+  factory MessageBus(T Function(String) parser) {
+    return _instances.putIfAbsent(T, () => MessageBus<T>._internal(parser))
         as MessageBus<T>;
   }
 
-  MessageBus._internal() {
+  MessageBus._internal(this._parser) {
     _logger = Logger(runtimeType.toString());
   }
 
   late final Logger _logger;
 
   final Map<T, BehaviorSubject<Message>> _channels = {};
+  final T Function(String) _parser;
 
-  Stream<E> receive<E extends Message>(T channel) {
+  Stream<(T, E)> receive<E extends Message>(T channel) {
     _channels.putIfAbsent(channel, () {
       _logger.info('Creating new channel [$channel]');
       return BehaviorSubject<Message>();
@@ -30,9 +31,10 @@ final class MessageBus<T extends ProtobufEnum> {
         .stream
         .where((message) => message is E)
         .cast<E>()
+        .map((message) => (_parser(message.channel), message))
         .distinct()
-        .doOnData((message) =>
-            _logger.fine('Stream data on channel [$channel]:\n$message'))
+        .doOnData((pair) =>
+            _logger.fine('Stream data on channel [${pair.$1}]:\n${pair.$2}'))
         .handleError((error) =>
             _logger.severe('Stream error on channel [$channel]:\n$error'));
   }
