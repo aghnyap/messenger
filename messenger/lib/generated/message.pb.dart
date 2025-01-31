@@ -13,6 +13,9 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
+import 'google/protobuf/any.pb.dart' as $0;
+import 'google/protobuf/timestamp.pb.dart' as $1;
+
 enum Message_Type {
   request, 
   response, 
@@ -26,7 +29,8 @@ class Message extends $pb.GeneratedMessage {
     $core.String? correlationId,
     $core.String? sourceId,
     $core.String? destinationId,
-    $core.String? channel,
+    $0.Any? channel,
+    $1.Timestamp? timestamp,
     Request? request,
     Response? response,
     Broadcast? broadcast,
@@ -44,6 +48,9 @@ class Message extends $pb.GeneratedMessage {
     if (channel != null) {
       $result.channel = channel;
     }
+    if (timestamp != null) {
+      $result.timestamp = timestamp;
+    }
     if (request != null) {
       $result.request = request;
     }
@@ -60,20 +67,21 @@ class Message extends $pb.GeneratedMessage {
   factory Message.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static const $core.Map<$core.int, Message_Type> _Message_TypeByTag = {
-    5 : Message_Type.request,
-    6 : Message_Type.response,
-    7 : Message_Type.broadcast,
+    6 : Message_Type.request,
+    7 : Message_Type.response,
+    8 : Message_Type.broadcast,
     0 : Message_Type.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Message', createEmptyInstance: create)
-    ..oo(0, [5, 6, 7])
+    ..oo(0, [6, 7, 8])
     ..aOS(1, _omitFieldNames ? '' : 'correlationId')
     ..aOS(2, _omitFieldNames ? '' : 'sourceId')
     ..aOS(3, _omitFieldNames ? '' : 'destinationId')
-    ..aOS(4, _omitFieldNames ? '' : 'channel')
-    ..aOM<Request>(5, _omitFieldNames ? '' : 'request', subBuilder: Request.create)
-    ..aOM<Response>(6, _omitFieldNames ? '' : 'response', subBuilder: Response.create)
-    ..aOM<Broadcast>(7, _omitFieldNames ? '' : 'broadcast', subBuilder: Broadcast.create)
+    ..aOM<$0.Any>(4, _omitFieldNames ? '' : 'channel', subBuilder: $0.Any.create)
+    ..aOM<$1.Timestamp>(5, _omitFieldNames ? '' : 'timestamp', subBuilder: $1.Timestamp.create)
+    ..aOM<Request>(6, _omitFieldNames ? '' : 'request', subBuilder: Request.create)
+    ..aOM<Response>(7, _omitFieldNames ? '' : 'response', subBuilder: Response.create)
+    ..aOM<Broadcast>(8, _omitFieldNames ? '' : 'broadcast', subBuilder: Broadcast.create)
     ..hasRequiredFields = false
   ;
 
@@ -129,51 +137,59 @@ class Message extends $pb.GeneratedMessage {
   void clearDestinationId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get channel => $_getSZ(3);
+  $0.Any get channel => $_getN(3);
   @$pb.TagNumber(4)
-  set channel($core.String v) { $_setString(3, v); }
+  set channel($0.Any v) { setField(4, v); }
   @$pb.TagNumber(4)
   $core.bool hasChannel() => $_has(3);
   @$pb.TagNumber(4)
   void clearChannel() => clearField(4);
+  @$pb.TagNumber(4)
+  $0.Any ensureChannel() => $_ensure(3);
 
   @$pb.TagNumber(5)
-  Request get request => $_getN(4);
+  $1.Timestamp get timestamp => $_getN(4);
   @$pb.TagNumber(5)
-  set request(Request v) { setField(5, v); }
+  set timestamp($1.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
-  $core.bool hasRequest() => $_has(4);
+  $core.bool hasTimestamp() => $_has(4);
   @$pb.TagNumber(5)
-  void clearRequest() => clearField(5);
+  void clearTimestamp() => clearField(5);
   @$pb.TagNumber(5)
-  Request ensureRequest() => $_ensure(4);
+  $1.Timestamp ensureTimestamp() => $_ensure(4);
 
   @$pb.TagNumber(6)
-  Response get response => $_getN(5);
+  Request get request => $_getN(5);
   @$pb.TagNumber(6)
-  set response(Response v) { setField(6, v); }
+  set request(Request v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasResponse() => $_has(5);
+  $core.bool hasRequest() => $_has(5);
   @$pb.TagNumber(6)
-  void clearResponse() => clearField(6);
+  void clearRequest() => clearField(6);
   @$pb.TagNumber(6)
-  Response ensureResponse() => $_ensure(5);
+  Request ensureRequest() => $_ensure(5);
 
   @$pb.TagNumber(7)
-  Broadcast get broadcast => $_getN(6);
+  Response get response => $_getN(6);
   @$pb.TagNumber(7)
-  set broadcast(Broadcast v) { setField(7, v); }
+  set response(Response v) { setField(7, v); }
   @$pb.TagNumber(7)
-  $core.bool hasBroadcast() => $_has(6);
+  $core.bool hasResponse() => $_has(6);
   @$pb.TagNumber(7)
-  void clearBroadcast() => clearField(7);
+  void clearResponse() => clearField(7);
   @$pb.TagNumber(7)
-  Broadcast ensureBroadcast() => $_ensure(6);
-}
+  Response ensureResponse() => $_ensure(6);
 
-enum Request_Data {
-  rawData, 
-  notSet
+  @$pb.TagNumber(8)
+  Broadcast get broadcast => $_getN(7);
+  @$pb.TagNumber(8)
+  set broadcast(Broadcast v) { setField(8, v); }
+  @$pb.TagNumber(8)
+  $core.bool hasBroadcast() => $_has(7);
+  @$pb.TagNumber(8)
+  void clearBroadcast() => clearField(8);
+  @$pb.TagNumber(8)
+  Broadcast ensureBroadcast() => $_ensure(7);
 }
 
 /// / ----------- REQUEST MESSAGE -----------
@@ -184,7 +200,7 @@ class Request extends $pb.GeneratedMessage {
   factory Request({
     $core.String? code,
     $core.Map<$core.String, $core.String>? parameters,
-    $core.List<$core.int>? rawData,
+    $0.Any? data,
   }) {
     final $result = create();
     if (code != null) {
@@ -193,8 +209,8 @@ class Request extends $pb.GeneratedMessage {
     if (parameters != null) {
       $result.parameters.addAll(parameters);
     }
-    if (rawData != null) {
-      $result.rawData = rawData;
+    if (data != null) {
+      $result.data = data;
     }
     return $result;
   }
@@ -202,15 +218,10 @@ class Request extends $pb.GeneratedMessage {
   factory Request.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Request.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, Request_Data> _Request_DataByTag = {
-    3 : Request_Data.rawData,
-    0 : Request_Data.notSet
-  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Request', createEmptyInstance: create)
-    ..oo(0, [3])
     ..aOS(1, _omitFieldNames ? '' : 'code')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'parameters', entryClassName: 'Request.ParametersEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
-    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'rawData', $pb.PbFieldType.OY)
+    ..aOM<$0.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -235,9 +246,6 @@ class Request extends $pb.GeneratedMessage {
   static Request getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Request>(create);
   static Request? _defaultInstance;
 
-  Request_Data whichData() => _Request_DataByTag[$_whichOneof(0)]!;
-  void clearData() => clearField($_whichOneof(0));
-
   @$pb.TagNumber(1)
   $core.String get code => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -251,18 +259,15 @@ class Request extends $pb.GeneratedMessage {
   $core.Map<$core.String, $core.String> get parameters => $_getMap(1);
 
   @$pb.TagNumber(3)
-  $core.List<$core.int> get rawData => $_getN(2);
+  $0.Any get data => $_getN(2);
   @$pb.TagNumber(3)
-  set rawData($core.List<$core.int> v) { $_setBytes(2, v); }
+  set data($0.Any v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasRawData() => $_has(2);
+  $core.bool hasData() => $_has(2);
   @$pb.TagNumber(3)
-  void clearRawData() => clearField(3);
-}
-
-enum Response_Data {
-  rawData, 
-  notSet
+  void clearData() => clearField(3);
+  @$pb.TagNumber(3)
+  $0.Any ensureData() => $_ensure(2);
 }
 
 /// / ----------- RESPONSE MESSAGE -----------
@@ -274,7 +279,7 @@ class Response extends $pb.GeneratedMessage {
     $core.String? code,
     $core.bool? success,
     $core.String? message,
-    $core.List<$core.int>? rawData,
+    $0.Any? data,
   }) {
     final $result = create();
     if (code != null) {
@@ -286,8 +291,8 @@ class Response extends $pb.GeneratedMessage {
     if (message != null) {
       $result.message = message;
     }
-    if (rawData != null) {
-      $result.rawData = rawData;
+    if (data != null) {
+      $result.data = data;
     }
     return $result;
   }
@@ -295,16 +300,11 @@ class Response extends $pb.GeneratedMessage {
   factory Response.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Response.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, Response_Data> _Response_DataByTag = {
-    4 : Response_Data.rawData,
-    0 : Response_Data.notSet
-  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Response', createEmptyInstance: create)
-    ..oo(0, [4])
     ..aOS(1, _omitFieldNames ? '' : 'code')
     ..aOB(2, _omitFieldNames ? '' : 'success')
     ..aOS(3, _omitFieldNames ? '' : 'message')
-    ..a<$core.List<$core.int>>(4, _omitFieldNames ? '' : 'rawData', $pb.PbFieldType.OY)
+    ..aOM<$0.Any>(4, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -328,9 +328,6 @@ class Response extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static Response getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Response>(create);
   static Response? _defaultInstance;
-
-  Response_Data whichData() => _Response_DataByTag[$_whichOneof(0)]!;
-  void clearData() => clearField($_whichOneof(0));
 
   @$pb.TagNumber(1)
   $core.String get code => $_getSZ(0);
@@ -360,18 +357,15 @@ class Response extends $pb.GeneratedMessage {
   void clearMessage() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.List<$core.int> get rawData => $_getN(3);
+  $0.Any get data => $_getN(3);
   @$pb.TagNumber(4)
-  set rawData($core.List<$core.int> v) { $_setBytes(3, v); }
+  set data($0.Any v) { setField(4, v); }
   @$pb.TagNumber(4)
-  $core.bool hasRawData() => $_has(3);
+  $core.bool hasData() => $_has(3);
   @$pb.TagNumber(4)
-  void clearRawData() => clearField(4);
-}
-
-enum Broadcast_Data {
-  rawData, 
-  notSet
+  void clearData() => clearField(4);
+  @$pb.TagNumber(4)
+  $0.Any ensureData() => $_ensure(3);
 }
 
 /// / ----------- BROADCAST MESSAGE -----------
@@ -382,7 +376,7 @@ class Broadcast extends $pb.GeneratedMessage {
   factory Broadcast({
     $core.String? event,
     $core.Map<$core.String, $core.String>? metadata,
-    $core.List<$core.int>? rawData,
+    $0.Any? data,
   }) {
     final $result = create();
     if (event != null) {
@@ -391,8 +385,8 @@ class Broadcast extends $pb.GeneratedMessage {
     if (metadata != null) {
       $result.metadata.addAll(metadata);
     }
-    if (rawData != null) {
-      $result.rawData = rawData;
+    if (data != null) {
+      $result.data = data;
     }
     return $result;
   }
@@ -400,15 +394,10 @@ class Broadcast extends $pb.GeneratedMessage {
   factory Broadcast.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory Broadcast.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static const $core.Map<$core.int, Broadcast_Data> _Broadcast_DataByTag = {
-    3 : Broadcast_Data.rawData,
-    0 : Broadcast_Data.notSet
-  };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Broadcast', createEmptyInstance: create)
-    ..oo(0, [3])
     ..aOS(1, _omitFieldNames ? '' : 'event')
     ..m<$core.String, $core.String>(2, _omitFieldNames ? '' : 'metadata', entryClassName: 'Broadcast.MetadataEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS)
-    ..a<$core.List<$core.int>>(3, _omitFieldNames ? '' : 'rawData', $pb.PbFieldType.OY)
+    ..aOM<$0.Any>(3, _omitFieldNames ? '' : 'data', subBuilder: $0.Any.create)
     ..hasRequiredFields = false
   ;
 
@@ -433,9 +422,6 @@ class Broadcast extends $pb.GeneratedMessage {
   static Broadcast getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Broadcast>(create);
   static Broadcast? _defaultInstance;
 
-  Broadcast_Data whichData() => _Broadcast_DataByTag[$_whichOneof(0)]!;
-  void clearData() => clearField($_whichOneof(0));
-
   @$pb.TagNumber(1)
   $core.String get event => $_getSZ(0);
   @$pb.TagNumber(1)
@@ -449,13 +435,15 @@ class Broadcast extends $pb.GeneratedMessage {
   $core.Map<$core.String, $core.String> get metadata => $_getMap(1);
 
   @$pb.TagNumber(3)
-  $core.List<$core.int> get rawData => $_getN(2);
+  $0.Any get data => $_getN(2);
   @$pb.TagNumber(3)
-  set rawData($core.List<$core.int> v) { $_setBytes(2, v); }
+  set data($0.Any v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasRawData() => $_has(2);
+  $core.bool hasData() => $_has(2);
   @$pb.TagNumber(3)
-  void clearRawData() => clearField(3);
+  void clearData() => clearField(3);
+  @$pb.TagNumber(3)
+  $0.Any ensureData() => $_ensure(2);
 }
 
 

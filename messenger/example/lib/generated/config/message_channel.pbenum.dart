@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: config/message_config.proto
+//  source: config/message_channel.proto
 //
 // @dart = 2.12
 
@@ -15,14 +15,14 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 /// Enum to define standard message channels
 class MessageChannel extends $pb.ProtobufEnum {
-  static const MessageChannel unknown = MessageChannel._(0, _omitEnumNames ? '' : 'unknown');
-  static const MessageChannel counter = MessageChannel._(1, _omitEnumNames ? '' : 'counter');
-  static const MessageChannel timer = MessageChannel._(2, _omitEnumNames ? '' : 'timer');
+  static const MessageChannel UNKNOWN = MessageChannel._(0, _omitEnumNames ? '' : 'UNKNOWN');
+  static const MessageChannel COUNTER = MessageChannel._(1, _omitEnumNames ? '' : 'COUNTER');
+  static const MessageChannel TIMER = MessageChannel._(2, _omitEnumNames ? '' : 'TIMER');
 
   static const $core.List<MessageChannel> values = <MessageChannel> [
-    unknown,
-    counter,
-    timer,
+    UNKNOWN,
+    COUNTER,
+    TIMER,
   ];
 
   static final $core.Map<$core.int, MessageChannel> _byValue = $pb.ProtobufEnum.initByValue(values);

@@ -1,7 +1,9 @@
 import 'package:injectable/injectable.dart';
+import 'package:messenger/generated/google/protobuf/any.pb.dart';
+import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_config.pb.dart';
+import '../../generated/config/message_channel.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 
 import 'counter.dart';
@@ -14,8 +16,10 @@ final class CounterService extends MessageService<MessageChannel> {
     super.messageBus,
     this.counter,
   ) : super(
-          incomingChannels: [MessageChannel.counter],
-          outgoingChannel: MessageChannel.counter,
+          incomingChannels: [
+            MessageChannel.COUNTER,
+          ],
+          outgoingChannel: MessageChannel.COUNTER,
         );
 
   @override
@@ -47,13 +51,13 @@ final class CounterService extends MessageService<MessageChannel> {
   }
 
   pb.Counter _parseRawData(Message message) {
-    if (!message.request.hasRawData()) {
+    if (!message.request.hasData()) {
       logger.warning('No raw_data found in request. Defaulting counter to 0.');
       return pb.Counter()..value = 0;
     }
 
     try {
-      return pb.Counter.fromBuffer(message.request.rawData);
+      return message.request.data.unpackInto(pb.Counter());
     } catch (e) {
       logger.severe('Failed to parse Counter from raw_data: $e');
       return pb.Counter()..value = 0;
@@ -64,12 +68,11 @@ final class CounterService extends MessageService<MessageChannel> {
     Message requestMessage,
     pb.Counter counter,
   ) {
-    final responseMessage = Message()
-      ..response = (Response()
-        ..code = requestMessage.request.code
-        ..success = true
-        ..rawData = counter.writeToBuffer());
+    final response = Response()
+      ..code = requestMessage.request.code
+      ..success = true
+      ..data = Any.pack(counter);
 
-    dispatch(responseMessage);
+    dispatch(Message()..response = response);
   }
 }

@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: config/message_config.proto
+//  source: config/message_channel.proto
 //
 // @dart = 2.12
 
@@ -10,5 +10,5 @@
 // ignore_for_file: non_constant_identifier_names, prefer_final_fields
 // ignore_for_file: unnecessary_import, unnecessary_this, unused_import
 
-export 'message_config.pb.dart';
+export 'message_channel.pb.dart';
 

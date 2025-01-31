@@ -1,15 +1,19 @@
 syntax = "proto3";
 
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
 // ----------- BASE MESSAGE -----------
 message Message {
   string correlation_id = 1; // Unique ID for tracking requests and responses
   string source_id = 2;
   string destination_id = 3;
-  bytes channel = 4;
+  google.protobuf.Any channel = 4;
+  google.protobuf.Timestamp timestamp = 5;
   oneof type { // Message types
-    Request request = 5;
-    Response response = 6;
-    Broadcast broadcast = 7;
+    Request request = 6;
+    Response response = 7;
+    Broadcast broadcast = 8;
   }
 }
 
@@ -20,7 +24,7 @@ message Message {
 message Request {
   string code = 1;                           // Request action code
   map<string, string> parameters = 2;        // Request parameters
-  bytes data = 3;                            // Optional data payload
+  google.protobuf.Any data = 3;                            // Optional data payload
 }
 
 /// ----------- RESPONSE MESSAGE -----------
@@ -31,7 +35,7 @@ message Response {
   string code = 1;                           // Response code
   bool success = 2;                          // Success status
   string message = 3;                        // Message description
-  bytes data = 4;                            // Optional data payload
+  google.protobuf.Any data = 4;                            // Optional data payload
 }
 
 /// ----------- BROADCAST MESSAGE -----------
@@ -41,5 +45,5 @@ message Response {
 message Broadcast {
   string event = 1;                          // Broadcast event name
   map<string, string> metadata = 2;          // Metadata for event
-  bytes data = 3;                            // Optional data payload
+  google.protobuf.Any data = 3;                            // Optional data payload
 }

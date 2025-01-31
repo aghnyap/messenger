@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:messenger/generated/google/protobuf/any.pb.dart';
+import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_config.pb.dart';
+import '../../generated/config/message_channel.pb.dart';
 import '../../generated/counter/counter.pb.dart' as pb;
 import '../../generated/timer/timer.pb.dart' as pb;
 
@@ -15,34 +17,32 @@ final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
       : super(
           initialState: CounterInitial(),
           incomingChannels: [
-            MessageChannel.counter,
-            MessageChannel.timer,
+            MessageChannel.COUNTER,
+            MessageChannel.TIMER,
           ],
-          outgoingChannel: MessageChannel.counter,
+          outgoingChannel: MessageChannel.COUNTER,
         );
 
   @override
   void handle(Message message) {
     if (message.hasResponse()) {
-      if (!message.response.hasRawData()) {
+      if (!message.response.hasData()) {
         return;
       }
 
       try {
-        final counter = pb.Counter.fromBuffer(message.response.rawData);
-
+        final counter = message.response.data.unpackInto(pb.Counter());
         emit(CounterUpdated(counter: counter.value, ticks: state.ticks));
       } catch (e) {
         logger.severe('Failed to parse Counter from raw_data: $e');
       }
     } else if (message.hasBroadcast()) {
-      if (!message.broadcast.hasRawData()) {
+      if (!message.broadcast.hasData()) {
         return;
       }
 
       try {
-        final timer = pb.Timer.fromBuffer(message.broadcast.rawData);
-
+        final timer = message.broadcast.data.unpackInto(pb.Timer());
         emit(CounterUpdated(counter: state.counter, ticks: timer.ticks));
       } catch (e) {
         logger.severe('Failed to parse Counter from raw_data: $e');
@@ -55,7 +55,7 @@ final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
 
     var request = Request()
       ..code = 'increment'
-      ..rawData = counter.writeToBuffer();
+      ..data = Any.pack(counter);
 
     dispatch(Message()..request = request);
   }
@@ -65,7 +65,7 @@ final class CounterCubit extends MessageCubit<CounterState, MessageChannel> {
 
     var request = Request()
       ..code = 'decrement'
-      ..rawData = counter.writeToBuffer();
+      ..data = Any.pack(counter);
 
     dispatch(Message()..request = request);
   }

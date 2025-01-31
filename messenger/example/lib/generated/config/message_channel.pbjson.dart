@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: config/message_config.proto
+//  source: config/message_channel.proto
 //
 // @dart = 2.12
 
@@ -17,13 +17,13 @@ import 'dart:typed_data' as $typed_data;
 const MessageChannel$json = {
   '1': 'MessageChannel',
   '2': [
-    {'1': 'unknown', '2': 0},
-    {'1': 'counter', '2': 1},
-    {'1': 'timer', '2': 2},
+    {'1': 'UNKNOWN', '2': 0},
+    {'1': 'COUNTER', '2': 1},
+    {'1': 'TIMER', '2': 2},
   ],
 };
 
 /// Descriptor for `MessageChannel`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List messageChannelDescriptor = $convert.base64Decode(
-    'Cg5NZXNzYWdlQ2hhbm5lbBILCgd1bmtub3duEAASCwoHY291bnRlchABEgkKBXRpbWVyEAI=');
+    'Cg5NZXNzYWdlQ2hhbm5lbBILCgdVTktOT1dOEAASCwoHQ09VTlRFUhABEgkKBVRJTUVSEAI=');
 

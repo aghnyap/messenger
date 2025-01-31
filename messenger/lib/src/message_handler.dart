@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
+import '../generated/message.pb.dart';
 import '../messenger.dart';
 
 typedef MessageFilter = bool Function(Message);
@@ -56,10 +57,7 @@ abstract mixin class MessageHandler<Channel> {
   void dispatch(Message message) {
     logger.info('Sending message to [$_outgoingChannel]:\n$message');
 
-    _messageBus.dispatch(
-      _outgoingChannel,
-      message..sourceId = _sourceId,
-    );
+    _messageBus.dispatch(_outgoingChannel, message..sourceId = _sourceId);
   }
 
   Future<void> dispose() async {

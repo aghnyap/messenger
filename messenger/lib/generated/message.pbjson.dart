@@ -20,10 +20,11 @@ const Message$json = {
     {'1': 'correlation_id', '3': 1, '4': 1, '5': 9, '10': 'correlationId'},
     {'1': 'source_id', '3': 2, '4': 1, '5': 9, '10': 'sourceId'},
     {'1': 'destination_id', '3': 3, '4': 1, '5': 9, '10': 'destinationId'},
-    {'1': 'channel', '3': 4, '4': 1, '5': 9, '10': 'channel'},
-    {'1': 'request', '3': 5, '4': 1, '5': 11, '6': '.Request', '9': 0, '10': 'request'},
-    {'1': 'response', '3': 6, '4': 1, '5': 11, '6': '.Response', '9': 0, '10': 'response'},
-    {'1': 'broadcast', '3': 7, '4': 1, '5': 11, '6': '.Broadcast', '9': 0, '10': 'broadcast'},
+    {'1': 'channel', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'channel'},
+    {'1': 'timestamp', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    {'1': 'request', '3': 6, '4': 1, '5': 11, '6': '.Request', '9': 0, '10': 'request'},
+    {'1': 'response', '3': 7, '4': 1, '5': 11, '6': '.Response', '9': 0, '10': 'response'},
+    {'1': 'broadcast', '3': 8, '4': 1, '5': 11, '6': '.Broadcast', '9': 0, '10': 'broadcast'},
   ],
   '8': [
     {'1': 'type'},
@@ -34,9 +35,11 @@ const Message$json = {
 final $typed_data.Uint8List messageDescriptor = $convert.base64Decode(
     'CgdNZXNzYWdlEiUKDmNvcnJlbGF0aW9uX2lkGAEgASgJUg1jb3JyZWxhdGlvbklkEhsKCXNvdX'
     'JjZV9pZBgCIAEoCVIIc291cmNlSWQSJQoOZGVzdGluYXRpb25faWQYAyABKAlSDWRlc3RpbmF0'
-    'aW9uSWQSGAoHY2hhbm5lbBgEIAEoCVIHY2hhbm5lbBIkCgdyZXF1ZXN0GAUgASgLMgguUmVxdW'
-    'VzdEgAUgdyZXF1ZXN0EicKCHJlc3BvbnNlGAYgASgLMgkuUmVzcG9uc2VIAFIIcmVzcG9uc2US'
-    'KgoJYnJvYWRjYXN0GAcgASgLMgouQnJvYWRjYXN0SABSCWJyb2FkY2FzdEIGCgR0eXBl');
+    'aW9uSWQSLgoHY2hhbm5lbBgEIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlSB2NoYW5uZWwSOA'
+    'oJdGltZXN0YW1wGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJdGltZXN0YW1w'
+    'EiQKB3JlcXVlc3QYBiABKAsyCC5SZXF1ZXN0SABSB3JlcXVlc3QSJwoIcmVzcG9uc2UYByABKA'
+    'syCS5SZXNwb25zZUgAUghyZXNwb25zZRIqCglicm9hZGNhc3QYCCABKAsyCi5Ccm9hZGNhc3RI'
+    'AFIJYnJvYWRjYXN0QgYKBHR5cGU=');
 
 @$core.Deprecated('Use requestDescriptor instead')
 const Request$json = {
@@ -44,12 +47,9 @@ const Request$json = {
   '2': [
     {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
     {'1': 'parameters', '3': 2, '4': 3, '5': 11, '6': '.Request.ParametersEntry', '10': 'parameters'},
-    {'1': 'raw_data', '3': 3, '4': 1, '5': 12, '9': 0, '10': 'rawData'},
+    {'1': 'data', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'data'},
   ],
   '3': [Request_ParametersEntry$json],
-  '8': [
-    {'1': 'data'},
-  ],
 };
 
 @$core.Deprecated('Use requestDescriptor instead')
@@ -65,9 +65,9 @@ const Request_ParametersEntry$json = {
 /// Descriptor for `Request`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List requestDescriptor = $convert.base64Decode(
     'CgdSZXF1ZXN0EhIKBGNvZGUYASABKAlSBGNvZGUSOAoKcGFyYW1ldGVycxgCIAMoCzIYLlJlcX'
-    'Vlc3QuUGFyYW1ldGVyc0VudHJ5UgpwYXJhbWV0ZXJzEhsKCHJhd19kYXRhGAMgASgMSABSB3Jh'
-    'd0RhdGEaPQoPUGFyYW1ldGVyc0VudHJ5EhAKA2tleRgBIAEoCVIDa2V5EhQKBXZhbHVlGAIgAS'
-    'gJUgV2YWx1ZToCOAFCBgoEZGF0YQ==');
+    'Vlc3QuUGFyYW1ldGVyc0VudHJ5UgpwYXJhbWV0ZXJzEigKBGRhdGEYAyABKAsyFC5nb29nbGUu'
+    'cHJvdG9idWYuQW55UgRkYXRhGj0KD1BhcmFtZXRlcnNFbnRyeRIQCgNrZXkYASABKAlSA2tleR'
+    'IUCgV2YWx1ZRgCIAEoCVIFdmFsdWU6AjgB');
 
 @$core.Deprecated('Use responseDescriptor instead')
 const Response$json = {
@@ -76,18 +76,15 @@ const Response$json = {
     {'1': 'code', '3': 1, '4': 1, '5': 9, '10': 'code'},
     {'1': 'success', '3': 2, '4': 1, '5': 8, '10': 'success'},
     {'1': 'message', '3': 3, '4': 1, '5': 9, '10': 'message'},
-    {'1': 'raw_data', '3': 4, '4': 1, '5': 12, '9': 0, '10': 'rawData'},
-  ],
-  '8': [
-    {'1': 'data'},
+    {'1': 'data', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'data'},
   ],
 };
 
 /// Descriptor for `Response`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List responseDescriptor = $convert.base64Decode(
     'CghSZXNwb25zZRISCgRjb2RlGAEgASgJUgRjb2RlEhgKB3N1Y2Nlc3MYAiABKAhSB3N1Y2Nlc3'
-    'MSGAoHbWVzc2FnZRgDIAEoCVIHbWVzc2FnZRIbCghyYXdfZGF0YRgEIAEoDEgAUgdyYXdEYXRh'
-    'QgYKBGRhdGE=');
+    'MSGAoHbWVzc2FnZRgDIAEoCVIHbWVzc2FnZRIoCgRkYXRhGAQgASgLMhQuZ29vZ2xlLnByb3Rv'
+    'YnVmLkFueVIEZGF0YQ==');
 
 @$core.Deprecated('Use broadcastDescriptor instead')
 const Broadcast$json = {
@@ -95,12 +92,9 @@ const Broadcast$json = {
   '2': [
     {'1': 'event', '3': 1, '4': 1, '5': 9, '10': 'event'},
     {'1': 'metadata', '3': 2, '4': 3, '5': 11, '6': '.Broadcast.MetadataEntry', '10': 'metadata'},
-    {'1': 'raw_data', '3': 3, '4': 1, '5': 12, '9': 0, '10': 'rawData'},
+    {'1': 'data', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Any', '10': 'data'},
   ],
   '3': [Broadcast_MetadataEntry$json],
-  '8': [
-    {'1': 'data'},
-  ],
 };
 
 @$core.Deprecated('Use broadcastDescriptor instead')
@@ -116,7 +110,7 @@ const Broadcast_MetadataEntry$json = {
 /// Descriptor for `Broadcast`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List broadcastDescriptor = $convert.base64Decode(
     'CglCcm9hZGNhc3QSFAoFZXZlbnQYASABKAlSBWV2ZW50EjQKCG1ldGFkYXRhGAIgAygLMhguQn'
-    'JvYWRjYXN0Lk1ldGFkYXRhRW50cnlSCG1ldGFkYXRhEhsKCHJhd19kYXRhGAMgASgMSABSB3Jh'
-    'd0RhdGEaOwoNTWV0YWRhdGFFbnRyeRIQCgNrZXkYASABKAlSA2tleRIUCgV2YWx1ZRgCIAEoCV'
-    'IFdmFsdWU6AjgBQgYKBGRhdGE=');
+    'JvYWRjYXN0Lk1ldGFkYXRhRW50cnlSCG1ldGFkYXRhEigKBGRhdGEYAyABKAsyFC5nb29nbGUu'
+    'cHJvdG9idWYuQW55UgRkYXRhGjsKDU1ldGFkYXRhRW50cnkSEAoDa2V5GAEgASgJUgNrZXkSFA'
+    'oFdmFsdWUYAiABKAlSBXZhbHVlOgI4AQ==');
 

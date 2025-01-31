@@ -11,7 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:bloc/bloc.dart' as _i923;
 import 'package:example/di/register_module.dart' as _i820;
-import 'package:example/generated/config/message_config.pb.dart' as _i912;
+import 'package:example/generated/config/message_channel.pb.dart' as _i935;
 import 'package:example/src/counter/counter.dart' as _i467;
 import 'package:example/src/counter/counter_cubit.dart' as _i635;
 import 'package:example/src/counter/counter_service.dart' as _i773;
@@ -19,6 +19,7 @@ import 'package:example/src/my_app_bloc_observer.dart' as _i300;
 import 'package:example/src/timer/timer_service.dart' as _i71;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:messenger/generated/message.pb.dart' as _i145;
 import 'package:messenger/messenger.dart' as _i238;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -33,18 +34,18 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final registerModule = _$RegisterModule();
-    gh.singleton<_i238.MessageBus<_i238.Message, _i912.MessageChannel>>(
+    gh.singleton<_i238.MessageBus<_i145.Message, _i935.MessageChannel>>(
         () => registerModule.messageBus);
     gh.singleton<_i467.Counter>(() => const _i467.Counter());
-    gh.factory<_i635.CounterCubit>(() => _i635.CounterCubit(
-        gh<_i238.MessageBus<_i238.Message, _i912.MessageChannel>>()));
-    gh.singleton<_i71.TimerService>(() => _i71.TimerService(
-        gh<_i238.MessageBus<_i238.Message, _i912.MessageChannel>>()));
     gh.singleton<_i923.BlocObserver>(() => const _i300.MyAppBlocObserver());
     gh.singleton<_i773.CounterService>(() => _i773.CounterService(
-          gh<_i238.MessageBus<_i238.Message, _i912.MessageChannel>>(),
+          gh<_i238.MessageBus<_i145.Message, _i935.MessageChannel>>(),
           gh<_i467.Counter>(),
         ));
+    gh.singleton<_i71.TimerService>(() => _i71.TimerService(
+        gh<_i238.MessageBus<_i145.Message, _i935.MessageChannel>>()));
+    gh.factory<_i635.CounterCubit>(() => _i635.CounterCubit(
+        gh<_i238.MessageBus<_i145.Message, _i935.MessageChannel>>()));
     return this;
   }
 }

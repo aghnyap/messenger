@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:injectable/injectable.dart';
+import 'package:messenger/generated/google/protobuf/any.pb.dart';
+import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
-import '../../generated/config/message_config.pb.dart';
+import '../../generated/config/message_channel.pb.dart';
 import '../../generated/timer/timer.pb.dart' as pb;
 
 @singleton
@@ -12,8 +14,10 @@ final class TimerService extends MessageService<MessageChannel> {
 
   TimerService(super.messageBus)
       : super(
-          incomingChannels: [MessageChannel.counter],
-          outgoingChannel: MessageChannel.timer,
+          incomingChannels: [
+            MessageChannel.COUNTER,
+          ],
+          outgoingChannel: MessageChannel.TIMER,
         ) {
     _startTimer();
   }
@@ -38,10 +42,10 @@ final class TimerService extends MessageService<MessageChannel> {
       return;
     }
 
-    logger.info("Timer started. Broadcasting every 1 second.");
-    _subscription = Stream.periodic(const Duration(seconds: 1), (ticks) {
-      return pb.Timer()..ticks = ++ticks;
-    }).listen(_broadcastTimer);
+    _subscription = Stream.periodic(
+      const Duration(seconds: 1),
+      (ticks) => pb.Timer()..ticks = ++ticks,
+    ).listen(_broadcastTimer);
   }
 
   void _resetTimer() async {
@@ -52,13 +56,8 @@ final class TimerService extends MessageService<MessageChannel> {
   }
 
   void _broadcastTimer(pb.Timer timer) {
+    dispatch(Message()..broadcast = (Broadcast()..data = Any.pack(timer)));
     logger.info("Broadcasting timer message: ${timer.ticks}");
-
-    final broadcastMessage = Message()
-      ..channel = 'timer'
-      ..broadcast = (Broadcast()..rawData = timer.writeToBuffer());
-
-    dispatch(broadcastMessage);
   }
 
   @override
