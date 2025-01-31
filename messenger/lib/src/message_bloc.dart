@@ -9,7 +9,7 @@ import 'message_handler.dart';
 abstract class MessageBloc<Event, State> extends Bloc<Event, State>
     with MessageHandler {
   MessageBloc(
-    MessageBus<Message> messageBus, {
+    MessageBus messageBus, {
     required State initialState,
     required List<String> incomingChannels,
     required String outgoingChannel,

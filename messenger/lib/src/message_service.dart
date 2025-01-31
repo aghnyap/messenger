@@ -4,7 +4,7 @@ import 'message_handler.dart';
 
 abstract class MessageService extends MessageHandler {
   MessageService(
-    MessageBus<Message> messageBus, {
+    MessageBus messageBus, {
     required List<String> incomingChannels,
     required String outgoingChannel,
     bool Function(Message)? filter,

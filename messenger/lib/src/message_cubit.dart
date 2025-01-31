@@ -8,7 +8,7 @@ import 'message_handler.dart';
 
 abstract class MessageCubit<State> extends Cubit<State> with MessageHandler {
   MessageCubit(
-    MessageBus<Message> messageBus, {
+    MessageBus messageBus, {
     required State initialState,
     required List<String> incomingChannels,
     required String outgoingChannel,

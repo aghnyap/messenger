@@ -11,14 +11,14 @@ import '../messenger.dart';
 abstract mixin class MessageHandler {
   late final Logger logger;
 
-  late final MessageBus<Message> _messageBus;
+  late final MessageBus _messageBus;
   late final String _sourceId;
   late final String _outgoingChannel;
 
   late final StreamSubscription<Message> _subscription;
 
   void initializeMessageHandler(
-    MessageBus<Message> messageBus, {
+    MessageBus messageBus, {
     required List<String> incomingChannels,
     required String outgoingChannel,
     required bool Function(Message) filter,
