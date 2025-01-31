@@ -4,6 +4,10 @@ import 'package:rxdart/rxdart.dart';
 import '../generated/message.pb.dart';
 
 final class MessageBus {
+  MessageBus() {
+    _logger = Logger(runtimeType.toString());
+  }
+
   late final Logger _logger;
 
   final Map<String, BehaviorSubject<Message>> _channels = {};
