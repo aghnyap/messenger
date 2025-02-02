@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
-  final getIt = GetIt.instance;
+  GetIt getIt = GetIt.instance;
 
   setUp(() async {
     configureDependencies(); // ✅ Register fresh dependencies for every test
@@ -23,7 +23,7 @@ void main() {
   });
 
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     // ✅ Ensure the counter starts at 0
     expect(find.text('0'), findsExactly(2));
@@ -39,7 +39,7 @@ void main() {
   });
 
   testWidgets('Counter decrements smoke test', (WidgetTester tester) async {
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     // ✅ Ensure the counter starts at 0
     expect(find.text('0'), findsExactly(2));

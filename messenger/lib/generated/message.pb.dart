@@ -29,7 +29,8 @@ class Message extends $pb.GeneratedMessage {
     $core.String? correlationId,
     $core.String? sourceId,
     $core.String? destinationId,
-    $core.String? channel,
+    $core.String? channelName,
+    $core.int? channelValue,
     $0.Timestamp? timestamp,
     Request? request,
     Response? response,
@@ -45,8 +46,11 @@ class Message extends $pb.GeneratedMessage {
     if (destinationId != null) {
       $result.destinationId = destinationId;
     }
-    if (channel != null) {
-      $result.channel = channel;
+    if (channelName != null) {
+      $result.channelName = channelName;
+    }
+    if (channelValue != null) {
+      $result.channelValue = channelValue;
     }
     if (timestamp != null) {
       $result.timestamp = timestamp;
@@ -67,21 +71,22 @@ class Message extends $pb.GeneratedMessage {
   factory Message.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static const $core.Map<$core.int, Message_Type> _Message_TypeByTag = {
-    6 : Message_Type.request,
-    7 : Message_Type.response,
-    8 : Message_Type.broadcast,
+    7 : Message_Type.request,
+    8 : Message_Type.response,
+    9 : Message_Type.broadcast,
     0 : Message_Type.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Message', createEmptyInstance: create)
-    ..oo(0, [6, 7, 8])
+    ..oo(0, [7, 8, 9])
     ..aOS(1, _omitFieldNames ? '' : 'correlationId')
     ..aOS(2, _omitFieldNames ? '' : 'sourceId')
     ..aOS(3, _omitFieldNames ? '' : 'destinationId')
-    ..aOS(4, _omitFieldNames ? '' : 'channel')
-    ..aOM<$0.Timestamp>(5, _omitFieldNames ? '' : 'timestamp', subBuilder: $0.Timestamp.create)
-    ..aOM<Request>(6, _omitFieldNames ? '' : 'request', subBuilder: Request.create)
-    ..aOM<Response>(7, _omitFieldNames ? '' : 'response', subBuilder: Response.create)
-    ..aOM<Broadcast>(8, _omitFieldNames ? '' : 'broadcast', subBuilder: Broadcast.create)
+    ..aOS(4, _omitFieldNames ? '' : 'channelName')
+    ..a<$core.int>(5, _omitFieldNames ? '' : 'channelValue', $pb.PbFieldType.O3)
+    ..aOM<$0.Timestamp>(6, _omitFieldNames ? '' : 'timestamp', subBuilder: $0.Timestamp.create)
+    ..aOM<Request>(7, _omitFieldNames ? '' : 'request', subBuilder: Request.create)
+    ..aOM<Response>(8, _omitFieldNames ? '' : 'response', subBuilder: Response.create)
+    ..aOM<Broadcast>(9, _omitFieldNames ? '' : 'broadcast', subBuilder: Broadcast.create)
     ..hasRequiredFields = false
   ;
 
@@ -137,57 +142,66 @@ class Message extends $pb.GeneratedMessage {
   void clearDestinationId() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.String get channel => $_getSZ(3);
+  $core.String get channelName => $_getSZ(3);
   @$pb.TagNumber(4)
-  set channel($core.String v) { $_setString(3, v); }
+  set channelName($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasChannel() => $_has(3);
+  $core.bool hasChannelName() => $_has(3);
   @$pb.TagNumber(4)
-  void clearChannel() => clearField(4);
+  void clearChannelName() => clearField(4);
 
   @$pb.TagNumber(5)
-  $0.Timestamp get timestamp => $_getN(4);
+  $core.int get channelValue => $_getIZ(4);
   @$pb.TagNumber(5)
-  set timestamp($0.Timestamp v) { setField(5, v); }
+  set channelValue($core.int v) { $_setSignedInt32(4, v); }
   @$pb.TagNumber(5)
-  $core.bool hasTimestamp() => $_has(4);
+  $core.bool hasChannelValue() => $_has(4);
   @$pb.TagNumber(5)
-  void clearTimestamp() => clearField(5);
-  @$pb.TagNumber(5)
-  $0.Timestamp ensureTimestamp() => $_ensure(4);
+  void clearChannelValue() => clearField(5);
 
   @$pb.TagNumber(6)
-  Request get request => $_getN(5);
+  $0.Timestamp get timestamp => $_getN(5);
   @$pb.TagNumber(6)
-  set request(Request v) { setField(6, v); }
+  set timestamp($0.Timestamp v) { setField(6, v); }
   @$pb.TagNumber(6)
-  $core.bool hasRequest() => $_has(5);
+  $core.bool hasTimestamp() => $_has(5);
   @$pb.TagNumber(6)
-  void clearRequest() => clearField(6);
+  void clearTimestamp() => clearField(6);
   @$pb.TagNumber(6)
-  Request ensureRequest() => $_ensure(5);
+  $0.Timestamp ensureTimestamp() => $_ensure(5);
 
   @$pb.TagNumber(7)
-  Response get response => $_getN(6);
+  Request get request => $_getN(6);
   @$pb.TagNumber(7)
-  set response(Response v) { setField(7, v); }
+  set request(Request v) { setField(7, v); }
   @$pb.TagNumber(7)
-  $core.bool hasResponse() => $_has(6);
+  $core.bool hasRequest() => $_has(6);
   @$pb.TagNumber(7)
-  void clearResponse() => clearField(7);
+  void clearRequest() => clearField(7);
   @$pb.TagNumber(7)
-  Response ensureResponse() => $_ensure(6);
+  Request ensureRequest() => $_ensure(6);
 
   @$pb.TagNumber(8)
-  Broadcast get broadcast => $_getN(7);
+  Response get response => $_getN(7);
   @$pb.TagNumber(8)
-  set broadcast(Broadcast v) { setField(8, v); }
+  set response(Response v) { setField(8, v); }
   @$pb.TagNumber(8)
-  $core.bool hasBroadcast() => $_has(7);
+  $core.bool hasResponse() => $_has(7);
   @$pb.TagNumber(8)
-  void clearBroadcast() => clearField(8);
+  void clearResponse() => clearField(8);
   @$pb.TagNumber(8)
-  Broadcast ensureBroadcast() => $_ensure(7);
+  Response ensureResponse() => $_ensure(7);
+
+  @$pb.TagNumber(9)
+  Broadcast get broadcast => $_getN(8);
+  @$pb.TagNumber(9)
+  set broadcast(Broadcast v) { setField(9, v); }
+  @$pb.TagNumber(9)
+  $core.bool hasBroadcast() => $_has(8);
+  @$pb.TagNumber(9)
+  void clearBroadcast() => clearField(9);
+  @$pb.TagNumber(9)
+  Broadcast ensureBroadcast() => $_ensure(8);
 }
 
 /// / ----------- REQUEST MESSAGE -----------

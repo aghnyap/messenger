@@ -8,12 +8,13 @@ message Message {
   string correlation_id = 1; // Unique ID for tracking requests and responses
   string source_id = 2;
   string destination_id = 3;
-  string channel = 4;
-  google.protobuf.Timestamp timestamp = 5;
+  string channel_name = 4;
+  int32 channel_value = 5;
+  google.protobuf.Timestamp timestamp = 6;
   oneof type { // Message types
-    Request request = 6;
-    Response response = 7;
-    Broadcast broadcast = 8;
+    Request request = 7;
+    Response response = 8;
+    Broadcast broadcast = 9;
   }
 }
 

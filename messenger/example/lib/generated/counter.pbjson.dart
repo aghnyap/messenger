@@ -1,6 +1,6 @@
 //
 //  Generated code. Do not modify.
-//  source: counter/counter.proto
+//  source: counter.proto
 //
 // @dart = 2.12
 

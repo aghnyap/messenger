@@ -1,38 +1,38 @@
-part of 'counter_cubit.dart';
+part of 'counter_bloc.dart';
 
 sealed class CounterState extends Equatable {
-  final int counter;
-  final int ticks;
-
   const CounterState({
     required this.counter,
-    required this.ticks,
   });
 
+  final int counter;
+
   @override
-  List<Object?> get props => [counter, ticks];
+  List<Object?> get props => <Object?>[counter];
 }
 
 final class CounterInitial extends CounterState {
-  const CounterInitial() : super(counter: 0, ticks: 0);
+  const CounterInitial() : super(counter: 0);
+}
+
+final class CounterLoading extends CounterState {
+  const CounterLoading({required super.counter});
 }
 
 final class CounterError extends CounterState {
-  final String? message;
-
   const CounterError({
     required super.counter,
-    required super.ticks,
     this.message,
   });
 
+  final String? message;
+
   @override
-  List<Object?> get props => [counter, ticks, message];
+  List<Object?> get props => <Object?>[counter, message];
 }
 
 final class CounterUpdated extends CounterState {
   const CounterUpdated({
     required super.counter,
-    required super.ticks,
   });
 }

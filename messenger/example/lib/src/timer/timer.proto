@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-package timer;
-
-// Message that represents a timer tick.
-message Timer {
-  int32 ticks = 1; // The elapsed time in minutes
-}

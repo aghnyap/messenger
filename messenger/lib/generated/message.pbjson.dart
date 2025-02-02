@@ -20,11 +20,12 @@ const Message$json = {
     {'1': 'correlation_id', '3': 1, '4': 1, '5': 9, '10': 'correlationId'},
     {'1': 'source_id', '3': 2, '4': 1, '5': 9, '10': 'sourceId'},
     {'1': 'destination_id', '3': 3, '4': 1, '5': 9, '10': 'destinationId'},
-    {'1': 'channel', '3': 4, '4': 1, '5': 9, '10': 'channel'},
-    {'1': 'timestamp', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
-    {'1': 'request', '3': 6, '4': 1, '5': 11, '6': '.Request', '9': 0, '10': 'request'},
-    {'1': 'response', '3': 7, '4': 1, '5': 11, '6': '.Response', '9': 0, '10': 'response'},
-    {'1': 'broadcast', '3': 8, '4': 1, '5': 11, '6': '.Broadcast', '9': 0, '10': 'broadcast'},
+    {'1': 'channel_name', '3': 4, '4': 1, '5': 9, '10': 'channelName'},
+    {'1': 'channel_value', '3': 5, '4': 1, '5': 5, '10': 'channelValue'},
+    {'1': 'timestamp', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'timestamp'},
+    {'1': 'request', '3': 7, '4': 1, '5': 11, '6': '.Request', '9': 0, '10': 'request'},
+    {'1': 'response', '3': 8, '4': 1, '5': 11, '6': '.Response', '9': 0, '10': 'response'},
+    {'1': 'broadcast', '3': 9, '4': 1, '5': 11, '6': '.Broadcast', '9': 0, '10': 'broadcast'},
   ],
   '8': [
     {'1': 'type'},
@@ -35,10 +36,11 @@ const Message$json = {
 final $typed_data.Uint8List messageDescriptor = $convert.base64Decode(
     'CgdNZXNzYWdlEiUKDmNvcnJlbGF0aW9uX2lkGAEgASgJUg1jb3JyZWxhdGlvbklkEhsKCXNvdX'
     'JjZV9pZBgCIAEoCVIIc291cmNlSWQSJQoOZGVzdGluYXRpb25faWQYAyABKAlSDWRlc3RpbmF0'
-    'aW9uSWQSGAoHY2hhbm5lbBgEIAEoCVIHY2hhbm5lbBI4Cgl0aW1lc3RhbXAYBSABKAsyGi5nb2'
-    '9nbGUucHJvdG9idWYuVGltZXN0YW1wUgl0aW1lc3RhbXASJAoHcmVxdWVzdBgGIAEoCzIILlJl'
-    'cXVlc3RIAFIHcmVxdWVzdBInCghyZXNwb25zZRgHIAEoCzIJLlJlc3BvbnNlSABSCHJlc3Bvbn'
-    'NlEioKCWJyb2FkY2FzdBgIIAEoCzIKLkJyb2FkY2FzdEgAUglicm9hZGNhc3RCBgoEdHlwZQ==');
+    'aW9uSWQSIQoMY2hhbm5lbF9uYW1lGAQgASgJUgtjaGFubmVsTmFtZRIjCg1jaGFubmVsX3ZhbH'
+    'VlGAUgASgFUgxjaGFubmVsVmFsdWUSOAoJdGltZXN0YW1wGAYgASgLMhouZ29vZ2xlLnByb3Rv'
+    'YnVmLlRpbWVzdGFtcFIJdGltZXN0YW1wEiQKB3JlcXVlc3QYByABKAsyCC5SZXF1ZXN0SABSB3'
+    'JlcXVlc3QSJwoIcmVzcG9uc2UYCCABKAsyCS5SZXNwb25zZUgAUghyZXNwb25zZRIqCglicm9h'
+    'ZGNhc3QYCSABKAsyCi5Ccm9hZGNhc3RIAFIJYnJvYWRjYXN0QgYKBHR5cGU=');
 
 @$core.Deprecated('Use requestDescriptor instead')
 const Request$json = {

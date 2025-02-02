@@ -1,32 +1,46 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:protobuf/protobuf.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../generated/message.pb.dart';
 import 'message_bus.dart';
 import 'message_handler.dart';
 
 abstract class MessageBloc<Event, State, T extends ProtobufEnum>
-    extends Bloc<Event, State> with MessageHandler<T> {
+    extends Bloc<Event, State> with MessageHandler<T, State> {
   MessageBloc(
     MessageBus<T> messageBus, {
-    required State initialState,
     required List<T> incomingChannels,
     required T outgoingChannel,
-    bool Function((T, Message))? filter,
+    required State initialState,
   }) : super(initialState) {
-    initializeMessageHandler(
+    init(
       messageBus,
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
-      filter: filter ?? (_) => true,
     );
+
+    _currentState = initialState;
+
+    subscription = messageStream
+        .switchMap(messageTransformer)
+        .listen((State state) => _currentState = state);
   }
 
+  late State _currentState;
+
   @override
-  Future<void> close() async {
-    await dispose();
-    return super.close();
+  State get state => _currentState;
+
+  @override
+  Stream<State> get stream => messageStream.switchMap(messageTransformer);
+
+  /// Must be implemented by subclasses to process messages
+  Stream<State> messageTransformer(Message message);
+
+  @override
+  void dispose() {
+    super.close();
+    super.dispose();
   }
 }

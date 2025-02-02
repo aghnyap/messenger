@@ -14,14 +14,11 @@ class MyAppBlocObserver extends BlocObserver {
   const MyAppBlocObserver();
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
+  void onTransition(
+    Bloc<dynamic, dynamic> bloc,
+    Transition<dynamic, dynamic> transition,
+  ) {
     super.onTransition(bloc, transition);
     logger.info('[${bloc.runtimeType}] $transition');
-  }
-
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-    logger.info('[${bloc.runtimeType}] $change');
   }
 }

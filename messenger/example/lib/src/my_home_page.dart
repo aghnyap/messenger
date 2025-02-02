@@ -1,10 +1,12 @@
+// ignore_for_file: prefer_expression_function_bodies
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'counter/counter_cubit.dart';
+import 'counter/counter_bloc.dart';
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({required this.title, super.key});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -57,21 +59,15 @@ class MyHomePage extends StatelessWidget {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<CounterCubit, CounterState>(
-              builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
+            BlocBuilder<CounterBloc, CounterState>(
+              builder: (BuildContext context, CounterState state) {
+                switch (state) {
+                  default:
+                    return Text(
                       '${state.counter}',
                       style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    Text(
-                      '${state.ticks}',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                );
+                    );
+                }
               },
             ),
           ],
@@ -79,15 +75,17 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
+        children: <Widget>[
           FloatingActionButton(
-            onPressed: () => context.read<CounterCubit>().increment(),
+            onPressed: () =>
+                context.read<CounterBloc>().add(IncrementCounter()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10), // Spacing between buttons
           FloatingActionButton(
-            onPressed: () => context.read<CounterCubit>().decrement(),
+            onPressed: () =>
+                context.read<CounterBloc>().add(DecrementCounter()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),
