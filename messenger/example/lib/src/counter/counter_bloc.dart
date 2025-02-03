@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
-import 'package:messenger/generated/google/protobuf/any.pb.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
@@ -11,45 +9,46 @@ import '../../generated/message_channel.pbenum.dart';
 part 'counter_event.dart';
 part 'counter_state.dart';
 
-@injectable
 final class CounterBloc
     extends MessageBloc<CounterEvent, CounterState, MessageChannel> {
   CounterBloc(super.messageBus)
       : super(
-          initialState: const CounterInitial(),
+          initialState: const Initial(),
           incomingChannels: <MessageChannel>[
             MessageChannel.COUNTER,
           ],
           outgoingChannel: MessageChannel.COUNTER,
         ) {
-    on<IncrementCounter>((IncrementCounter event, Emitter<CounterState> emit) {
-      pb.Counter counter = pb.Counter()..value = state.counter;
+    on<Increment>(
+      (Increment event, Emitter<CounterState> emit) {
+        emit(Loading(state.counter));
+      },
+      transformer: (
+        Stream<Increment> events,
+        Stream<Increment> Function(Increment) mapper,
+      ) =>
+          events,
+    );
 
-      Request request = Request()
-        ..code = 'increment'
-        ..data = Any.pack(counter);
-
-      dispatch(Message()..request = request);
-    });
-
-    on<DecrementCounter>((DecrementCounter event, Emitter<CounterState> emit) {
-      pb.Counter counter = pb.Counter()..value = state.counter;
-
-      Request request = Request()
-        ..code = 'decrement'
-        ..data = Any.pack(counter);
-
-      dispatch(Message()..request = request);
-    });
+    on<Decrement>(
+      (Decrement event, Emitter<CounterState> emit) {
+        emit(Loading(state.counter));
+      },
+      transformer: (
+        Stream<Decrement> events,
+        Stream<Decrement> Function(Decrement) mapper,
+      ) =>
+          events,
+    );
   }
 
   @override
-  Stream<CounterState> messageTransformer(Message message) async* {
+  Stream<CounterState> mapToState(Message message) async* {
     switch (MessageChannel.valueOf(message.channelValue)) {
       case MessageChannel.COUNTER:
         try {
           pb.Counter counter = message.response.data.unpackInto(pb.Counter());
-          yield CounterUpdated(counter: counter.value);
+          yield Updated(counter.value);
         } on Exception catch (e) {
           logger.severe('Failed to parse Counter from data: $e');
         }

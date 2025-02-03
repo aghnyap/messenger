@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:messenger/generated/google/protobuf/any.pb.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
@@ -6,7 +5,6 @@ import 'package:messenger/messenger.dart';
 import '../../generated/counter.pb.dart' as pb;
 import '../../generated/message_channel.pbenum.dart';
 
-@singleton
 final class CounterService extends MessageService<MessageChannel> {
   CounterService(
     super.messageBus,
@@ -18,7 +16,7 @@ final class CounterService extends MessageService<MessageChannel> {
         );
 
   @override
-  Stream<Message> messageTransformer(Message message) async* {
+  Stream<Message> transform(Message message) async* {
     switch (MessageChannel.valueOf(message.channelValue)) {
       case MessageChannel.COUNTER:
         if (!message.hasRequest()) {

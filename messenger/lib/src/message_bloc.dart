@@ -14,32 +14,31 @@ abstract class MessageBloc<Event, State, T extends ProtobufEnum>
     required T outgoingChannel,
     required State initialState,
   }) : super(initialState) {
+    _stateSubject = BehaviorSubject<State>.seeded(initialState);
+
     init(
       messageBus,
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
     );
 
-    _currentState = initialState;
-
-    subscription = messageStream
-        .switchMap(messageTransformer)
-        .listen((State state) => _currentState = state);
+    subscription =
+        messageStream.switchMap(mapToState).listen(_stateSubject.add);
   }
 
-  late State _currentState;
+  late final BehaviorSubject<State> _stateSubject;
 
   @override
-  State get state => _currentState;
+  State get state => _stateSubject.value;
 
   @override
-  Stream<State> get stream => messageStream.switchMap(messageTransformer);
+  Stream<State> get stream => _stateSubject.stream;
 
-  /// Must be implemented by subclasses to process messages
-  Stream<State> messageTransformer(Message message);
+  Stream<State> mapToState(Message message);
 
   @override
   void dispose() {
+    _stateSubject.close();
     super.close();
     super.dispose();
   }
