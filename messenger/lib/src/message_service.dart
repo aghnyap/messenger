@@ -18,9 +18,8 @@ abstract class MessageService<T extends ProtobufEnum>
       outgoingChannel: outgoingChannel,
     );
 
-    subscription = messageStream.switchMap(messageTransformer).listen(dispatch);
+    subscription = messageStream.switchMap(transform).listen(dispatch);
   }
 
-  /// Must be implemented by subclasses to process messages
-  Stream<Message> messageTransformer(Message message);
+  Stream<Message> transform(Message message);
 }

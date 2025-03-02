@@ -77,15 +77,17 @@ class MyHomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           FloatingActionButton(
-            onPressed: () =>
-                context.read<CounterBloc>().add(IncrementCounter()),
+            onPressed: () {
+              context.read<CounterBloc>().add(CounterIncrementPressed());
+            },
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
           const SizedBox(height: 10), // Spacing between buttons
           FloatingActionButton(
-            onPressed: () =>
-                context.read<CounterBloc>().add(DecrementCounter()),
+            onPressed: () {
+              context.read<CounterBloc>().add(CounterDecrementPressed());
+            },
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),

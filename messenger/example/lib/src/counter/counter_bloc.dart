@@ -1,17 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
-import 'package:messenger/generated/google/protobuf/any.pb.dart';
+import 'package:flutter/foundation.dart';
 import 'package:messenger/generated/message.pb.dart';
 import 'package:messenger/messenger.dart';
 
 import '../../generated/counter.pb.dart' as pb;
 import '../../generated/message_channel.pbenum.dart';
+import 'counter.dart';
 
 part 'counter_event.dart';
 part 'counter_state.dart';
 
-@injectable
 final class CounterBloc
     extends MessageBloc<CounterEvent, CounterState, MessageChannel> {
   CounterBloc(super.messageBus)
@@ -22,38 +21,42 @@ final class CounterBloc
           ],
           outgoingChannel: MessageChannel.COUNTER,
         ) {
-    on<IncrementCounter>((IncrementCounter event, Emitter<CounterState> emit) {
-      pb.Counter counter = pb.Counter()..value = state.counter;
+    on<CounterIncrementPressed>(
+      (
+        CounterIncrementPressed _,
+        Emitter<CounterState> emit,
+      ) {
+        emit(CounterUpdateSuccess(increment(state.counter)));
+      },
+    );
 
-      Request request = Request()
-        ..code = 'increment'
-        ..data = Any.pack(counter);
-
-      dispatch(Message()..request = request);
-    });
-
-    on<DecrementCounter>((DecrementCounter event, Emitter<CounterState> emit) {
-      pb.Counter counter = pb.Counter()..value = state.counter;
-
-      Request request = Request()
-        ..code = 'decrement'
-        ..data = Any.pack(counter);
-
-      dispatch(Message()..request = request);
+    on<CounterDecrementPressed>((
+      CounterDecrementPressed _,
+      Emitter<CounterState> emit,
+    ) {
+      emit(CounterUpdateSuccess(decrement(state.counter)));
     });
   }
 
   @override
-  Stream<CounterState> messageTransformer(Message message) async* {
+  Message mapFromEvent(CounterEvent event) => Message()..response = Response();
+
+  @override
+  CounterState mapToState(Message message) {
+    if (message.hasResponse()) {
+      message.response.data.canUnpackInto(pb.Counter());
+    }
     switch (MessageChannel.valueOf(message.channelValue)) {
       case MessageChannel.COUNTER:
         try {
           pb.Counter counter = message.response.data.unpackInto(pb.Counter());
-          yield CounterUpdated(counter: counter.value);
+          return CounterUpdateSuccess(counter.value);
         } on Exception catch (e) {
           logger.severe('Failed to parse Counter from data: $e');
+          return const CounterUpdateError(0, message: '');
         }
       default:
+        return const CounterUpdateError(0, message: '');
     }
   }
 }

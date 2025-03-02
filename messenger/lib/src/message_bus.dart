@@ -6,7 +6,7 @@ import '../generated/message.pb.dart';
 
 typedef MessageSubject = BehaviorSubject<Message>;
 
-final class MessageBus<T extends ProtobufEnum> {
+class MessageBus<T extends ProtobufEnum> {
   factory MessageBus() =>
       _instances.putIfAbsent(T, MessageBus<T>._internal) as MessageBus<T>;
 

@@ -19,28 +19,19 @@ abstract class MessageBloc<Event, State, T extends ProtobufEnum>
       incomingChannels: incomingChannels,
       outgoingChannel: outgoingChannel,
     );
-
-    _currentState = initialState;
-
-    subscription = messageStream
-        .switchMap(messageTransformer)
-        .listen((State state) => _currentState = state);
   }
 
-  late State _currentState;
-
-  @override
-  State get state => _currentState;
-
-  @override
-  Stream<State> get stream => messageStream.switchMap(messageTransformer);
-
-  /// Must be implemented by subclasses to process messages
-  Stream<State> messageTransformer(Message message);
-
-  @override
-  void dispose() {
-    super.close();
-    super.dispose();
+  State mapToState(Message message) {
+    throw UnimplementedError();
   }
+
+  Message mapFromEvent(Event event) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<State> get stream => Rx.merge(<Stream<State>>[
+        super.stream,
+        // messageStream.map(mapMessageToState),
+      ]).distinct();
 }

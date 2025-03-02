@@ -1,38 +1,40 @@
 part of 'counter_bloc.dart';
 
-sealed class CounterState extends Equatable {
-  const CounterState({
-    required this.counter,
-  });
-
+@immutable
+sealed class CounterState {
+  const CounterState(this.counter);
   final int counter;
+}
+
+final class CounterInitial extends CounterState with EquatableMixin {
+  const CounterInitial() : super(0);
 
   @override
   List<Object?> get props => <Object?>[counter];
 }
 
-final class CounterInitial extends CounterState {
-  const CounterInitial() : super(counter: 0);
+final class CounterUpdateInProgress extends CounterState with EquatableMixin {
+  const CounterUpdateInProgress(super.counter);
+
+  @override
+  List<Object?> get props => <Object?>[counter];
 }
 
-final class CounterLoading extends CounterState {
-  const CounterLoading({required super.counter});
-}
-
-final class CounterError extends CounterState {
-  const CounterError({
-    required super.counter,
-    this.message,
+final class CounterUpdateError extends CounterState with EquatableMixin {
+  const CounterUpdateError(
+    super.counter, {
+    required this.message,
   });
 
-  final String? message;
+  final String message;
 
   @override
   List<Object?> get props => <Object?>[counter, message];
 }
 
-final class CounterUpdated extends CounterState {
-  const CounterUpdated({
-    required super.counter,
-  });
+final class CounterUpdateSuccess extends CounterState with EquatableMixin {
+  const CounterUpdateSuccess(super.counter);
+
+  @override
+  List<Object?> get props => <Object?>[counter];
 }

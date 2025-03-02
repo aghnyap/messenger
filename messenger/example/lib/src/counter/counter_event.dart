@@ -2,6 +2,6 @@ part of 'counter_bloc.dart';
 
 sealed class CounterEvent {}
 
-final class IncrementCounter implements CounterEvent {}
+final class CounterIncrementPressed implements CounterEvent {}
 
-final class DecrementCounter implements CounterEvent {}
+final class CounterDecrementPressed implements CounterEvent {}

@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:messenger/messenger.dart';
 
+import '../generated/message_channel.pb.dart';
 import 'counter/counter_bloc.dart';
 import 'my_home_page.dart';
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: BlocProvider<CounterBloc>(
-        create: (_) => GetIt.I<CounterBloc>(),
+        create: (BuildContext _) => CounterBloc(MessageBus<MessageChannel>()),
         child: const MyHomePage(title: 'Flutter Demo Home Page'),
       ),
     );
