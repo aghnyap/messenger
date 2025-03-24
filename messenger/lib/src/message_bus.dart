@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import '../generated/message.pb.dart';
 
 typedef MessageSubject = BehaviorSubject<Message>;
+typedef MessagePublish = PublishSubject<Message>;
 
 class MessageBus<T extends ProtobufEnum> {
   factory MessageBus() =>
@@ -14,12 +15,11 @@ class MessageBus<T extends ProtobufEnum> {
     _logger = Logger(runtimeType.toString());
   }
 
+  late final Logger _logger;
+  final Map<T, MessageSubject> _channels = <T, MessageSubject>{};
+
   static final Map<Type, MessageBus<ProtobufEnum>> _instances =
       <Type, MessageBus<ProtobufEnum>>{};
-
-  late final Logger _logger;
-
-  final Map<T, MessageSubject> _channels = <T, MessageSubject>{};
 
   Stream<E> receive<E extends Message>(T channel) {
     _channels.putIfAbsent(channel, BehaviorSubject<E>.new);
